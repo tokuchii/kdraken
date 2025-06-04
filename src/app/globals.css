@@ -59,6 +59,15 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .animate-gradient-move {
   background-size: 200% 200%;
   animation: gradient-move 8s ease-in-out infinite;
@@ -88,4 +97,8 @@ body {
 .animate-fade-in-delay {
   animation: fade-in 1s ease-out 0.3s forwards;
   opacity: 0;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
 }
