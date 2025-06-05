@@ -7,6 +7,7 @@ import Projects from "./components/Projects";
 import SpiralIcon from "./components/SpiralIcon";
 import { SiGmail, SiLinkedin } from "react-icons/si";
 import { HiMenu, HiX } from "react-icons/hi";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
@@ -174,6 +175,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a1a1a] via-[#2d2d2d] to-[#0a0a0a] animate-gradient-move">
+      <Analytics />
       {/* Animated techy background shapes with floating animation */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute top-1/4 left-1/3 w-64 md:w-96 h-64 md:h-96 bg-[#4a2f1b] opacity-20 rounded-full blur-3xl animate-float-slow" />
