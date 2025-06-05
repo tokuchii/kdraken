@@ -5,7 +5,7 @@ import { useState } from "react";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import SpiralIcon from "./components/SpiralIcon";
-import { SiGmail } from "react-icons/si";
+import { SiGmail, SiLinkedin } from "react-icons/si";
 import { HiMenu, HiX } from "react-icons/hi";
 
 export default function Home() {
@@ -151,6 +151,9 @@ export default function Home() {
               </a>
               <a href="mailto:keisermacabos@gmail.com" className="text-[#c8a165] hover:text-white transition-colors duration-300 transform hover:scale-105">
                 <SiGmail className="w-4 h-4 md:w-5 md:h-5" />
+              </a>
+              <a href="https://www.linkedin.com/in/kenneth-kieser-macabos-026867367/" target="_blank" rel="noopener noreferrer" className="text-[#c8a165] hover:text-white transition-colors duration-300 transform hover:scale-105">
+                <SiLinkedin className="w-4 h-4 md:w-5 md:h-5" />
               </a>
             </div>
           </>

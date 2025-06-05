@@ -122,7 +122,7 @@ export default function About() {
                     href="https://www.google.com/maps/place/14%C2%B010'00.6%22N+121%C2%B020'46.7%22E/@14.1668303,121.3456703,19z/data=!3m1!4b1!4m4!3m3!8m2!3d14.166829!4d121.346314?entry=ttu&g_ep=EgoyMDI1MDYwMi4wIKXMDSoASAFQAw%3D%3D"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:underline transition-all duration-300 text-sm sm:text-base"
+                    className="underline transition-all duration-300 text-sm sm:text-base"
                   >
                     Purok 4 Blk 16 Lot 35 Brgy. Sto. Tomas Calauan, Laguna
                   </a>
@@ -133,7 +133,7 @@ export default function About() {
                 <td className="py-2 px-2 sm:px-4 text-[#c8a165]">
                   <a
                     href="tel:+639361687804"
-                    className="hover:underline transition-all duration-300 text-sm sm:text-base"
+                    className="underline transition-all duration-300 text-sm sm:text-base"
                   >
                     +63 936 168 7804
                   </a>

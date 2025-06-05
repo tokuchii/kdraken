@@ -16,19 +16,16 @@ export default function Projects() {
         "TypeScript",
         "Google Play Services for AR",
       ],
-      imageSrc: "/images/zp-burger.jpg", // Add the image URL here
     },
     {
       title: "MPDC Website",
       description: "Luxury real estate website showcasing premium apartments and hotels across the Philippines",
       technologies: ["Vue.js", "Laravel", "PHP", "SMTP", "Hostinger", "Tailwind CSS"],
-      imageSrc: "/images/mpdc-website.jpg", // Add the image URL here
     },
     {
       title: "LeadsAgri Website",
       description: "Website for an agricultural company showcasing products and services with Chat bot AI",
       technologies: ["Vue.js", "Laravel", "PHP", "SMTP", "Hostinger", "Tailwind CSS"],
-      imageSrc: "/images/leadsagri-website.jpg", // Add the image URL here
     },
   ];
 
@@ -78,20 +75,6 @@ export default function Projects() {
               ))}
             </div>
             
-            {/* Image under the description */}
-            {project.imageSrc && (
-              <div className="mb-4">
-                <Image
-                  src={project.imageSrc}
-                  alt={`${project.title} image`}
-                  width={400}
-                  height={225}
-                  objectFit="cover"
-                  className="rounded-lg"
-                />
-              </div>
-            )}
-
             {(project.title === "Zp Burger House" ||
               project.title === "MPDC Website" ||
               project.title === "LeadsAgri Website") && (
