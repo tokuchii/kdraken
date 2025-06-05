@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import About from "./components/About";
 import Projects from "./components/Projects";
-import Contact from "./components/Contact";
 import SpiralIcon from "./components/SpiralIcon";
 import { SiGmail } from "react-icons/si";
 import { HiMenu, HiX } from "react-icons/hi";
@@ -28,8 +27,6 @@ export default function Home() {
         return <About />;
       case "projects":
         return <Projects />;
-      case "contact":
-        return <Contact />;
       default:
         return (
           <>
@@ -193,15 +190,6 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
               <div className="absolute inset-0 bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-300 ease-out" />
             </button>
-
-            <button
-              onClick={() => handleNavigation("contact")}
-              className={`group relative px-6 py-3 text-[#c8a165] font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white ${activeSection === "contact" ? "text-white border-white" : ""}`}
-            >
-              <span className="relative z-10 transition-colors duration-300">Contact</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
-              <div className="absolute inset-0 bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-300 ease-out" />
-            </button>
           </div>
 
           {/* Mobile Navigation */}
@@ -236,12 +224,6 @@ export default function Home() {
                 className={`w-full text-left px-4 py-3 text-[#c8a165] font-medium rounded-lg transition-all duration-300 hover:text-white hover:bg-[#4a2f1b]/30 ${activeSection === "projects" ? "text-white bg-[#4a2f1b]/30" : ""}`}
               >
                 Projects
-              </button>
-              <button
-                onClick={() => handleNavigation("contact")}
-                className={`w-full text-left px-4 py-3 text-[#c8a165] font-medium rounded-lg transition-all duration-300 hover:text-white hover:bg-[#4a2f1b]/30 ${activeSection === "contact" ? "text-white bg-[#4a2f1b]/30" : ""}`}
-              >
-                Contact
               </button>
             </div>
           </div>
