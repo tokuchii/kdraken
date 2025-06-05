@@ -137,6 +137,17 @@ export default function Home() {
               and grow as a developer.
             </p>
 
+            {/* Resume Download Button */}
+            <a
+              href="/files/macabos_resume.pdf"
+              download
+              className="group relative px-6 py-3 text-[#c8a165] font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
+            >
+              <span className="relative z-10 transition-colors duration-300">Download Resume</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
+              <div className="absolute inset-0 bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-300 ease-out" />
+            </a>
+
             {/* Social links with hover effects */}
             <div className="flex gap-4 md:gap-6 mt-2 md:mt-4">
               <a href="https://www.facebook.com/kenneth.kieser.macabos" target="_blank" rel="noopener noreferrer" className="text-[#c8a165] hover:text-white transition-colors duration-300 transform hover:scale-105">
