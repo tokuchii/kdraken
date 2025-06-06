@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Projects() {
   const projects = [
     {
-      title: "Zp Burger House",
+      title: "ZP Burger House",
       description: "Web-based ordering system with Augmented Reality",
       technologies: [
         "React.js",
@@ -53,14 +53,7 @@ export default function Projects() {
         {projects.map((project, index) => (
           <div
             key={index}
-            className="bg-[#1a1a1a]/50 p-4 rounded-lg border border-[#4a2f1b]/30 hover:border-[#c8a165] transition-colors duration-300 cursor-pointer relative pb-10"
-            onClick={() => {
-              if (project.title === "Zp Burger House") {
-                window.open("https://zpcalauan.com", "_blank");
-              } else if (project.title === "MPDC Website") {
-                window.open("https://malvedaproperties.com", "_blank");
-              }
-            }}
+            className="bg-[#1a1a1a]/50 p-4 rounded-lg border border-[#4a2f1b]/30 hover:border-[#c8a165] transition-colors duration-300 relative pb-24"
           >
             <h3 className="text-xl font-semibold text-[#c8a165] mb-2">{project.title}</h3>
             <p className="text-[#c8a165] mb-3">{project.description}</p>
@@ -75,10 +68,10 @@ export default function Projects() {
               ))}
             </div>
             
-            {(project.title === "Zp Burger House" ||
+            {(project.title === "ZP Burger House" ||
               project.title === "MPDC Website" ||
               project.title === "LeadsAgri Website") && (
-              <div className="absolute bottom-4 right-4">
+              <div className="absolute bottom-4 right-4 flex flex-col items-end gap-2">
                 <span
                   className={`px-3 py-1 text-sm font-medium rounded-full inline-flex items-center ${
                     project.title === "LeadsAgri Website"
@@ -101,6 +94,21 @@ export default function Projects() {
                   </svg>
                   {project.title === "LeadsAgri Website" ? "Ongoing" : "Completed"}
                 </span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (project.title === "ZP Burger House") {
+                      window.open("https://zpcalauan.com", "_blank");
+                    } else if (project.title === "MPDC Website") {
+                      window.open("https://malvedaproperties.com", "_blank");
+                    }
+                  }}
+                  className="group relative px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
+                >
+                  <span className="relative z-10 transition-colors duration-300">Preview</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
+                  <div className="absolute inset-0 bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-300 ease-out" />
+                </button>
               </div>
             )}
           </div>
