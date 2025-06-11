@@ -172,10 +172,10 @@ export default function About() {
           <div className="space-y-6 sm:space-y-8 text-[#c8a165]">
             {/* Example Experience Item */}
             <div className="bg-[#1a1a1a]/50 p-4 rounded-lg border border-[#4a2f1b]/30">
-              <h4 className="text-base sm:text-lg font-semibold mb-1">Junior Fullstack Developer</h4>
+              <h4 className="text-base sm:text-lg font-semibold mb-1">Junior Full-stack Software Developer</h4>
               <p className="text-sm sm:text-base text-[#c8a165]/80">MalvedaProperties & LeadsAgri | Feb 5 - March 27 2025</p>
               <ul className="list-disc list-inside mt-2 text-sm sm:text-base">
-                <li>Worked as a On-the-Job Trainee ( Junior Fullstack
+                <li>Worked as a On-the-Job Trainee ( Junior Full-stack Software
                    Developer ), <br /> collaborating closely with the
                    development team.</li>
                 <li>Handled both frontend and backend development
