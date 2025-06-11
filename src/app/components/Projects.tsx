@@ -102,6 +102,9 @@ export default function Projects() {
                     } else if (project.title === "MPDC Website") {
                       window.open("https://malvedaproperties.com", "_blank");
                     }
+                    else if (project.title === "LeadsAgri Website") {
+                      window.open("https://leads-main-bh5n9j.laravel.cloud/", "_blank");
+                    }
                   }}
                   className="group relative px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
                 >
