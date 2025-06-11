@@ -25,7 +25,7 @@ export default function Projects() {
     {
       title: "LeadsAgri Website",
       description: "Website for an agricultural company showcasing products and services with Chat bot AI",
-      technologies: ["Vue.js", "Laravel", "PHP", "SMTP", "Hostinger", "Tailwind CSS"],
+      technologies: ["Vue.js", "Laravel", "PHP", "SMTP", "Laravel Cloud", "Tailwind CSS"],
     },
   ];
 
