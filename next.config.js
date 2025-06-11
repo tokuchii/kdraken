@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Keep existing devIndicators setting
-  devIndicators: false,
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
+  basePath: process.env.NODE_ENV === 'production' ? '/kdraken' : '',
 };
 
 module.exports = nextConfig; 
