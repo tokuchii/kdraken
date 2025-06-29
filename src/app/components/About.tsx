@@ -188,6 +188,17 @@ export default function About() {
               </ul>
             </div>
           </div>
+          <div className="space-y-6 sm:space-y-8 mt-2 text-[#c8a165]">
+            <div className="bg-[#1a1a1a]/50 p-4 rounded-lg border border-[#4a2f1b]/30">
+              <h4 className="text-base sm:text-lg font-semibold mb-1">SPES Trainee</h4>
+              <p className="text-sm sm:text-base text-[#c8a165]/80">SPES-Trainee ( Budgeting Office ) | June 1, 2024 - July 7, 2024</p>
+              <ul className="list-disc list-inside mt-2 text-sm sm:text-base">
+                <li>Encoder</li>
+                <li>Filing and organizing lists of transactions from all departments. </li>
+                <li>Maintaining physical and digital records.</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
       </div>
