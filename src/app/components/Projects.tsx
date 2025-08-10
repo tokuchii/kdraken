@@ -25,7 +25,7 @@ export default function Projects() {
     {
       title: "LeadsAgri Website",
       description: "Website for an agricultural company showcasing products and services with Chat bot AI",
-      technologies: ["Vue.js", "Laravel", "PHP", "SMTP","Tailwind CSS"],
+      technologies: ["Vue.js", "Laravel", "PHP", "SMTP", "Tailwind CSS"],
     },
     {
       title: "Farmex Website",
@@ -72,56 +72,59 @@ export default function Projects() {
                 </span>
               ))}
             </div>
-            
+
             {(project.title === "ZP Burger House" ||
               project.title === "MPDC Website" ||
+              project.title === "Farmex Website" ||
               project.title === "LeadsAgri Website") && (
-              <div className="absolute bottom-4 right-4 flex flex-col items-end gap-2">
-                <span
-                  className={`px-3 py-1 text-sm font-medium rounded-full inline-flex items-center ${
-                    project.title === "LeadsAgri Website"
-                      ? "text-orange-300 bg-orange-300/10"
-                      : "text-green-500 bg-green-500/10"
-                  }`}
-                >
-                  <svg
-                    className="w-4 h-4 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                <div className="absolute bottom-4 right-4 flex flex-col items-end gap-2">
+                  <span
+                    className={`px-3 py-1 text-sm font-medium rounded-full inline-flex items-center ${["LeadsAgri Website", "Farmex Website"].includes(project.title)
+                        ? "text-orange-300 bg-orange-300/10"
+                        : "text-green-500 bg-green-500/10"
+                      }`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  {project.title === "LeadsAgri Website" ? "Ongoing" : "Completed"}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (project.title === "ZP Burger House") {
-                      window.open("https://zpcalauan.com", "_blank");
-                    } else if (project.title === "MPDC Website") {
-                      window.open("https://malvedaproperties.com", "_blank");
-                    }
-                    else if (project.title === "LeadsAgri Website") {
-                      window.open("https://leadsagri.site", "_blank");
-                    }
-                    else if (project.title === "Farmex Website") {
-                      window.open("https://farmex.shop", "_blank");
-                    }
-                  }}
-                  className="group relative px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
-                >
-                  <span className="relative z-10 transition-colors duration-300">Preview</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
-                  <div className="absolute inset-0 bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-300 ease-out" />
-                </button>
-              </div>
-            )}
+
+                    <svg
+                      className="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    {project.title === "LeadsAgri Website" || project.title === "Farmex Website"
+                      ? "Ongoing"
+                      : "Completed"}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (project.title === "ZP Burger House") {
+                        window.open("https://zpcalauan.com", "_blank");
+                      } else if (project.title === "MPDC Website") {
+                        window.open("https://malvedaproperties.com", "_blank");
+                      }
+                      else if (project.title === "LeadsAgri Website") {
+                        window.open("https://leadsagri.site", "_blank");
+                      }
+                      else if (project.title === "Farmex Website") {
+                        window.open("https://farmex.shop", "_blank");
+                      }
+                    }}
+                    className="group relative px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
+                  >
+                    <span className="relative z-10 transition-colors duration-300">Preview</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
+                    <div className="absolute inset-0 bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-300 ease-out" />
+                  </button>
+                </div>
+              )}
           </div>
         ))}
       </div>
