@@ -25,7 +25,12 @@ export default function Projects() {
     {
       title: "LeadsAgri Website",
       description: "Website for an agricultural company showcasing products and services with Chat bot AI",
-      technologies: ["Vue.js", "Laravel", "PHP", "SMTP", "Laravel Cloud", "Tailwind CSS"],
+      technologies: ["Vue.js", "Laravel", "PHP", "SMTP","Tailwind CSS"],
+    },
+    {
+      title: "Farmex Website",
+      description: "Website for an agricultural company showcasing products and services.",
+      technologies: ["SMTP", "Remix", "Tailwind CSS"],
     },
   ];
 
@@ -104,6 +109,9 @@ export default function Projects() {
                     }
                     else if (project.title === "LeadsAgri Website") {
                       window.open("https://leadsagri.site", "_blank");
+                    }
+                    else if (project.title === "Farmex Website") {
+                      window.open("https://farmex.shop", "_blank");
                     }
                   }}
                   className="group relative px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
