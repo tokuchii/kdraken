@@ -140,7 +140,7 @@ export default function Home() {
 
             {/* Resume Download Button */}
             <a
-              href="/files/macabos_resume.pdf"
+              href="/files/macabos_cv.pdf"
               download
               className="group relative px-6 py-3 text-[#c8a165] font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
             >
