@@ -1,4 +1,12 @@
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+
+type GitHubRepo = {
+  name: string;
+  description: string | null;
+  language: string | null;
+};
 
 export default function Projects() {
   const projects = [
@@ -34,11 +42,38 @@ export default function Projects() {
     },
   ];
 
+  const [repos, setRepos] = useState<GitHubRepo[]>([]);
+  const [languageData, setLanguageData] = useState<{ language: string; count: number }[]>([]);
+
+  useEffect(() => {
+    fetch("/api/github/repos") // or GitHub API directly if CORS allows
+      .then((res) => res.json())
+      .then((data: any[]) => {
+        const filtered: GitHubRepo[] = data.map((repo: any) => ({
+          name: repo.name || "No name",
+          description: repo.description || "No description",
+          language: repo.language || "Unknown",
+        }));
+        setRepos(filtered);
+
+        // Count repos per language
+        const langCount: Record<string, number> = {};
+        filtered.forEach((repo) => {
+          const lang = repo.language || "Unknown";
+          langCount[lang] = (langCount[lang] || 0) + 1;
+        });
+
+        const chartData = Object.entries(langCount).map(([language, count]) => ({ language, count }));
+        setLanguageData(chartData);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+
   return (
     <div className="relative w-full animate-fade-in">
-      {/* Floating logo bubbles */}
+      {/* Floating logo bubbles (existing code remains unchanged) */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        {/* Floating Logo Bubbles (no change here) */}
         <div className="absolute top-[15%] left-[10%] w-8 h-8 opacity-10 animate-float-slow">
           <div className="relative w-full h-full rounded-full border border-[#4a2f1b] p-0.5">
             <Image
@@ -50,10 +85,9 @@ export default function Projects() {
             />
           </div>
         </div>
-
-        {/* ... (Other Floating Bubbles) */}
       </div>
 
+      {/* Existing Projects Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {projects.map((project, index) => (
           <div
@@ -84,7 +118,6 @@ export default function Projects() {
                         : "text-green-500 bg-green-500/10"
                       }`}
                   >
-
                     <svg
                       className="w-4 h-4 mr-1"
                       fill="none"
@@ -105,17 +138,10 @@ export default function Projects() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (project.title === "ZP Burger House") {
-                        window.open("https://zpcalauan.com", "_blank");
-                      } else if (project.title === "MPDC Website") {
-                        window.open("https://malvedaproperties.com", "_blank");
-                      }
-                      else if (project.title === "LeadsAgri Website") {
-                        window.open("https://leadsagri.site", "_blank");
-                      }
-                      else if (project.title === "Farmex Website") {
-                        window.open("https://farmex.shop", "_blank");
-                      }
+                      if (project.title === "ZP Burger House") window.open("https://zpcalauan.com", "_blank");
+                      if (project.title === "MPDC Website") window.open("https://malvedaproperties.com", "_blank");
+                      if (project.title === "LeadsAgri Website") window.open("https://leadsagri.site", "_blank");
+                      if (project.title === "Farmex Website") window.open("https://farmex.shop", "_blank");
                     }}
                     className="group relative px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
                   >
@@ -128,8 +154,26 @@ export default function Projects() {
           </div>
         ))}
       </div>
+
+
+      {/* Progress Graph Section */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold text-[#c8a165] mb-4 text-center">Progress Graph</h2>
+        {languageData.length === 0 ? (
+          <p className="text-[#c8a165] text-center">Loading graph...</p>
+        ) : (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={languageData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+              <XAxis dataKey="language" stroke="#c8a165" />
+              <YAxis stroke="#c8a165" />
+              <Tooltip
+                contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #4a2f1b", color: "#c8a165" }}
+              />
+              <Bar dataKey="count" fill="#c8a165" />
+            </BarChart>
+          </ResponsiveContainer>
+        )}
+      </div>
     </div>
   );
 }
-
-
