@@ -9,35 +9,46 @@ import { SiGmail, SiLinkedin, SiGithub, SiBuymeacoffee } from "react-icons/si";
 import { HiMenu, HiX } from "react-icons/hi";
 import BubbleLoader from "../app/loader/BubbleLoader";
 
-const useCountdown = (targetDate: string) => {
-  const countDownDate = new Date(targetDate).getTime();
-  const [countDown, setCountDown] = useState(
-    countDownDate - new Date().getTime()
-  );
+const useCountdown = (month: number, day: number) => {
+  const getNextBirthday = () => {
+    const now = new Date();
+    let year = now.getFullYear();
+    const target = new Date(year, month - 1, day, 0, 0, 0); // Month is 0-indexed
+    if (target < now) {
+      // Birthday this year has passed → move to next year
+      target.setFullYear(year + 1);
+    }
+    return target.getTime();
+  };
+
+  const [countDown, setCountDown] = useState(getNextBirthday());
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCountDown(countDownDate - new Date().getTime());
+      const now = new Date().getTime();
+      const target = getNextBirthday();
+      setCountDown(target - now);
     }, 1000);
+
     return () => clearInterval(interval);
-  }, [countDownDate]);
+  }, []);
 
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
+  const hours = Math.floor((countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
 
   return { days, hours, minutes, seconds };
 };
 
+
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const countdown = useCountdown("July 7, 2025 00:00:00");
+  const countdown = useCountdown(7, 7);
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -68,7 +79,7 @@ export default function Home() {
             <div className="fixed top-6 right-6 z-50 pointer-events-auto">
               <button
                 onClick={() => setShowModal(true)}
-                className="animate-shake hover:scale-110 transition-transform duration-300"
+                className="animate-shake hover:scale-110 cursor-pointer transition-transform duration-300"
               >
                 <SiBuymeacoffee className="w-10 h-10 text-[#c8a165]" />
               </button>
@@ -241,7 +252,7 @@ export default function Home() {
           <div className="hidden md:flex flex-1 justify-center gap-4">
             <button
               onClick={() => handleNavigation("about")}
-              className={`group relative px-6 py-3 text-[#c8a165] font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white ${activeSection === "about" ? "text-white border-white" : ""}`}
+              className={`group relative px-6 py-3 text-[#c8a165] cursor-pointer font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white ${activeSection === "about" ? "text-white border-white" : ""}`}
             >
               <span className="relative z-10 transition-colors duration-300">About Me</span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
@@ -250,7 +261,7 @@ export default function Home() {
 
             <button
               onClick={() => handleNavigation("projects")}
-              className={`group relative px-6 py-3 text-[#c8a165] font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white ${activeSection === "projects" ? "text-white border-white" : ""}`}
+              className={`group relative px-6 py-3 text-[#c8a165] cursor-pointer font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white ${activeSection === "projects" ? "text-white border-white" : ""}`}
             >
               <span className="relative z-10 transition-colors duration-300">Projects</span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
@@ -319,25 +330,32 @@ export default function Home() {
                 <span className="font-semibold text-[#c8a165]">July 7</span>!
               </p>
 
-              {/* Countdown Timer */}
-              <div className="grid grid-cols-4 gap-2 sm:gap-3 justify-center text-white font-mono mb-5 sm:mb-6">
-                <div className="bg-[#c8a165]/20 py-2 sm:py-3 rounded-lg">
-                  <span className="block text-lg sm:text-2xl font-bold">{countdown.days}</span>
-                  <div className="text-[10px] sm:text-xs uppercase">Days</div>
+              {/* Countdown Timer or Celebration */}
+              {countdown.days + countdown.hours + countdown.minutes + countdown.seconds <= 0 ? (
+                <h2 className="text-xl sm:text-2xl font-bold text-[#c8a165] mb-4">
+                  🎉 Happy Birthday! 🎉
+                </h2>
+              ) : (
+                <div className="grid grid-cols-4 gap-2 sm:gap-3 justify-center text-white font-mono mb-5 sm:mb-6">
+                  <div className="bg-[#c8a165]/20 py-2 sm:py-3 rounded-lg">
+                    <span className="block text-lg sm:text-2xl font-bold">{countdown.days}</span>
+                    <div className="text-[10px] sm:text-xs uppercase">Days</div>
+                  </div>
+                  <div className="bg-[#c8a165]/20 py-2 sm:py-3 rounded-lg">
+                    <span className="block text-lg sm:text-2xl font-bold">{countdown.hours}</span>
+                    <div className="text-[10px] sm:text-xs uppercase">Hours</div>
+                  </div>
+                  <div className="bg-[#c8a165]/20 py-2 sm:py-3 rounded-lg">
+                    <span className="block text-lg sm:text-2xl font-bold">{countdown.minutes}</span>
+                    <div className="text-[10px] sm:text-xs uppercase">Mins</div>
+                  </div>
+                  <div className="bg-[#c8a165]/20 py-2 sm:py-3 rounded-lg">
+                    <span className="block text-lg sm:text-2xl font-bold">{countdown.seconds}</span>
+                    <div className="text-[10px] sm:text-xs uppercase">Secs</div>
+                  </div>
                 </div>
-                <div className="bg-[#c8a165]/20 py-2 sm:py-3 rounded-lg">
-                  <span className="block text-lg sm:text-2xl font-bold">{countdown.hours}</span>
-                  <div className="text-[10px] sm:text-xs uppercase">Hours</div>
-                </div>
-                <div className="bg-[#c8a165]/20 py-2 sm:py-3 rounded-lg">
-                  <span className="block text-lg sm:text-2xl font-bold">{countdown.minutes}</span>
-                  <div className="text-[10px] sm:text-xs uppercase">Mins</div>
-                </div>
-                <div className="bg-[#c8a165]/20 py-2 sm:py-3 rounded-lg">
-                  <span className="block text-lg sm:text-2xl font-bold">{countdown.seconds}</span>
-                  <div className="text-[10px] sm:text-xs uppercase">Secs</div>
-                </div>
-              </div>
+              )}
+
 
               {/* CTA Button */}
               <a

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { motion, AnimatePresence } from "framer-motion";
+import { SiGithub } from "react-icons/si";
 
 type GitHubRepo = {
   name: string;
@@ -113,7 +114,10 @@ export default function Projects() {
                 y: -20,
                 transition: { duration: 0.25, ease: "easeIn" }, // no delay, faster exit
               }}
-              className="bg-[#1a1a1a]/50 p-4 rounded-lg border border-[#4a2f1b]/30 hover:border-[#c8a165] transition-colors duration-300 relative pb-24"
+              className="bg-[#1a1a1a]/50 p-4 rounded-lg border border-[#4a2f1b]/30 
+             hover:border-[#c8a165] cursor-pointer 
+             transform transition-transform duration-300 ease-in-out 
+             relative pb-24 hover:scale-105"
             >
               <h3 className="text-xl font-semibold text-[#c8a165] mb-2">{project.title}</h3>
               <p className="text-[#c8a165] mb-3">{project.description}</p>
@@ -135,8 +139,8 @@ export default function Projects() {
                   <div className="absolute bottom-4 right-4 flex flex-col items-end gap-2">
                     <span
                       className={`px-3 py-1 text-sm font-medium rounded-full inline-flex items-center ${["LeadsAgri Website", "Farmex Website"].includes(project.title)
-                          ? "text-orange-300 bg-orange-300/10"
-                          : "text-green-500 bg-green-500/10"
+                        ? "text-orange-300 bg-orange-300/10"
+                        : "text-green-500 bg-green-500/10"
                         }`}
                     >
                       <svg
@@ -152,45 +156,45 @@ export default function Projects() {
                         : "Completed"}
                     </span>
                     <div className="relative group">
-  <button
-    onClick={(e) => {
-      e.stopPropagation();
-      if (project.title === "ZP Burger House") window.open("https://zpcalauan.com", "_blank");
-      if (project.title === "MPDC Website") window.open("https://malvedaproperties.com", "_blank");
-      if (project.title === "LeadsAgri Website") window.open("https://leadsagri.site", "_blank");
-      if (project.title === "Farmex Website") window.open("https://farmex.shop", "_blank");
-    }}
-    className="px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
-  >
-    Preview
-  </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (project.title === "ZP Burger House") window.open("https://zpcalauan.com", "_blank");
+                          if (project.title === "MPDC Website") window.open("https://malvedaproperties.com", "_blank");
+                          if (project.title === "LeadsAgri Website") window.open("https://leadsagri.site", "_blank");
+                          if (project.title === "Farmex Website") window.open("https://farmex.shop", "_blank");
+                        }}
+                        className="px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
+                      >
+                        Preview
+                      </button>
 
-  {/* Hover preview image */}
-  <motion.div
-    className="absolute bottom-full right-0 w-64 h-40 bg-[#1a1a1a] border border-[#4a2f1b] rounded-lg shadow-lg overflow-hidden opacity-0 group-hover:opacity-100 z-50"
-    initial={{ opacity: 0, scale: 0.95 }}
-    whileHover={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.2 }}
-  >
-    <Image
-      src={
-        project.title === "ZP Burger House"
-          ? "/previews/zp-burger.gif"
-          : project.title === "MPDC Website"
-          ? "/previews/mpdc.gif"
-          : project.title === "LeadsAgri Website"
-          ? "/previews/leadsagri.gif"
-          : project.title === "Farmex Website"
-          ? "/previews/farmex.gif"
-          : ""
-      }
-      alt={`${project.title} preview`}
-      width={256}
-      height={160}
-      className="object-cover w-full h-full rounded-lg"
-    />
-  </motion.div>
-</div>
+                      {/* Hover preview image */}
+                      <motion.div
+                        className="absolute bottom-full right-0 w-64 h-40 bg-[#1a1a1a] border border-[#4a2f1b] rounded-lg shadow-lg overflow-hidden opacity-0 group-hover:opacity-100 z-50"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileHover={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Image
+                          src={
+                            project.title === "ZP Burger House"
+                              ? "/previews/zp-burger.gif"
+                              : project.title === "MPDC Website"
+                                ? "/previews/mpdc.gif"
+                                : project.title === "LeadsAgri Website"
+                                  ? "/previews/leadsagri.gif"
+                                  : project.title === "Farmex Website"
+                                    ? "/previews/farmex.gif"
+                                    : ""
+                          }
+                          alt={`${project.title} preview`}
+                          width={256}
+                          height={160}
+                          className="object-cover w-full h-full rounded-lg"
+                        />
+                      </motion.div>
+                    </div>
 
                   </div>
                 )}
@@ -204,51 +208,57 @@ export default function Projects() {
         <div className="flex justify-center mt-6">
           <button
             onClick={() => setShowAll(!showAll)}
-            className="px-6 py-2 rounded-lg border border-[#4a2f1b]/30 text-[#c8a165] hover:border-white hover:text-white transition-all duration-300"
+            className="px-6 py-2 rounded-lg border border-[#4a2f1b]/30 text-[#c8a165] hover:border-white hover:text-white transition-all duration-300 cursor-pointer"
           >
             {showAll ? "See Less" : "See More"}
           </button>
         </div>
       )}
       <hr className="my-8 border-t-2 border-[#c8a165]" />
-      {/* Progress Graph Section */}
-      <div className="mt-12">
-        <h2 className="text-2xl font-semibold text-[#c8a165] mb-4 text-center">
-          Progress Graph
-        </h2>
 
-        {languageData.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-[300px]">
-            {/* Bubble Loading Animation */}
-            <div className="flex space-x-2">
-              <span className="w-3 h-3 bg-[#c8a165] rounded-full animate-bounce" />
-              <span className="w-3 h-3 bg-[#c8a165] rounded-full animate-bounce [animation-delay:0.2s]" />
-              <span className="w-3 h-3 bg-[#c8a165] rounded-full animate-bounce [animation-delay:0.4s]" />
-            </div>
-            <p className="mt-4 text-[#c8a165] text-sm tracking-wide uppercase animate-pulse">
-              Loading Graph...
-            </p>
-          </div>
-        ) : (
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={languageData}
-              margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
-            >
-              <XAxis dataKey="language" stroke="#c8a165" />
-              <YAxis stroke="#c8a165" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#1a1a1a",
-                  border: "1px solid #4a2f1b",
-                  color: "#c8a165",
-                }}
-              />
-              <Bar dataKey="count" fill="#c8a165" />
-            </BarChart>
-          </ResponsiveContainer>
-        )}
+      {/* Progress Graph Section */}
+<div className="mt-12">
+  <h2 className="text-2xl font-semibold text-[#c8a165] mb-2 text-center">
+    Progress Graph
+  </h2>
+ <p className="flex items-center justify-center gap-1 text-center text-xs text-[#c8a165]/50 italic mb-4">
+    <SiGithub className="w-4 h-4" />
+    Powered by GitHub
+  </p>
+
+  {languageData.length === 0 ? (
+    <div className="flex flex-col items-center justify-center h-[300px]">
+      {/* Bubble Loading Animation */}
+      <div className="flex space-x-2">
+        <span className="w-3 h-3 bg-[#c8a165] rounded-full animate-bounce" />
+        <span className="w-3 h-3 bg-[#c8a165] rounded-full animate-bounce [animation-delay:0.2s]" />
+        <span className="w-3 h-3 bg-[#c8a165] rounded-full animate-bounce [animation-delay:0.4s]" />
       </div>
+      <p className="mt-4 text-[#c8a165] text-sm tracking-wide uppercase animate-pulse">
+        Loading Graph...
+      </p>
+    </div>
+  ) : (
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart
+        data={languageData}
+        margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+      >
+        <XAxis dataKey="language" stroke="#c8a165" />
+        <YAxis stroke="#c8a165" />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "#1a1a1a",
+            border: "1px solid #4a2f1b",
+            color: "#c8a165",
+          }}
+        />
+        <Bar dataKey="count" fill="#c8a165" cursor="pointer" />
+      </BarChart>
+    </ResponsiveContainer>
+  )}
+</div>
+
 
     </div>
   );
