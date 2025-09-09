@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 import { FaGamepad } from "react-icons/fa";
 import { SiDota2, SiValorant, SiCounterstrike } from "react-icons/si";
 import {
@@ -19,7 +20,9 @@ import {
   SiHostinger
 } from "react-icons/si";
 
+ 
 export default function About() {
+  const [showExperiences, setShowExperiences] = useState(false);
   return (
     <div className="relative w-full animate-fade-in">
       {/* Floating logo bubbles */}
@@ -113,7 +116,7 @@ export default function About() {
               </tr>
               <tr>
                 <td className="py-2 px-2 sm:px-4 font-medium text-[#c8a165]">Age</td>
-                <td className="py-2 px-2 sm:px-4 text-[#c8a165]">22</td>
+                <td className="py-2 px-2 sm:px-4 text-[#c8a165]">23</td>
               </tr>
               <tr>
                 <td className="py-2 px-2 sm:px-4 font-medium text-[#c8a165]">Location</td>
@@ -166,42 +169,8 @@ export default function About() {
           </table>
         </div>
 
-        {/* Experiences Section */}
-        <div className="mt-8 sm:mt-10">
-          <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#c8a165]">Experiences</h3>
-          <div className="space-y-6 sm:space-y-8 text-[#c8a165]">
-            {/* Example Experience Item */}
-            <div className="bg-[#1a1a1a]/50 p-4 rounded-lg border border-[#4a2f1b]/30">
-              <h4 className="text-base sm:text-lg font-semibold mb-1">Junior Full-stack Software Developer</h4>
-              <p className="text-sm sm:text-base text-[#c8a165]/80">MalvedaProperties & LeadsAgri | Feb 5 - March 27 2025</p>
-              <ul className="list-disc list-inside mt-2 text-sm sm:text-base">
-                <li>Worked as a On-the-Job Trainee ( Junior Full-stack Software
-                   Developer ), <br /> collaborating closely with the
-                   development team.</li>
-                <li>Handled both frontend and backend development
-                   tasks.</li>
-                <li>Managed and maintained company websites for
-                   MPDC and LAV.</li>
-                <li>Ensured overall website performance and
-                   responsiveness.</li>
-                <li> Troubleshot issues and applied updates as needed.</li>
-              </ul>
-            </div>
-          </div>
-          <div className="space-y-6 sm:space-y-8 mt-2 text-[#c8a165]">
-            <div className="bg-[#1a1a1a]/50 p-4 rounded-lg border border-[#4a2f1b]/30">
-              <h4 className="text-base sm:text-lg font-semibold mb-1">SPES Trainee</h4>
-              <p className="text-sm sm:text-base text-[#c8a165]/80">SPES-Trainee ( Budgeting Office ) | June 1, 2024 - July 7, 2024</p>
-              <ul className="list-disc list-inside mt-2 text-sm sm:text-base">
-                <li>Encoder</li>
-                <li>Filing and organizing lists of transactions from all departments. </li>
-                <li>Maintaining physical and digital records.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
       </div>
+<hr className="my-8 border-t-2 border-[#c8a165]" />
 
       <div className="space-y-4 text-[#c8a165]">
         <p className="text-lg sm:text-xl font-semibold mb-8 sm:mb-10 mt-8 sm:mt-10 text-center">
