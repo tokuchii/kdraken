@@ -216,12 +216,12 @@ export default function Projects() {
       )}
       <hr className="my-8 border-t-2 border-[#c8a165]" />
 
-      {/* Progress Graph Section */}
+    {/* Progress Graph Section */}
 <div className="mt-12">
   <h2 className="text-2xl font-semibold text-[#c8a165] mb-2 text-center">
     Progress Graph
   </h2>
- <p className="flex items-center justify-center gap-1 text-center text-xs text-[#c8a165]/50 italic mb-4">
+  <p className="flex items-center justify-center gap-1 text-center text-xs text-[#c8a165]/50 italic mb-4">
     <SiGithub className="w-4 h-4" />
     Powered by GitHub
   </p>
@@ -239,25 +239,61 @@ export default function Projects() {
       </p>
     </div>
   ) : (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart
-        data={languageData}
-        margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
-      >
-        <XAxis dataKey="language" stroke="#c8a165" />
-        <YAxis stroke="#c8a165" />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: "#1a1a1a",
-            border: "1px solid #4a2f1b",
-            color: "#c8a165",
-          }}
+  <ResponsiveContainer width="100%" height={300}>
+  <BarChart
+    data={languageData}
+    layout={window.innerWidth < 640 ? "vertical" : "horizontal"}
+    margin={{ top: 20, right: 30, left: 40, bottom: 20 }}
+  >
+    {window.innerWidth < 640 ? (
+      <>
+        <XAxis type="number" stroke="#c8a165" />
+        <YAxis
+          dataKey="language"
+          type="category"
+          stroke="#c8a165"
+          tick={(props) => {
+            const { x, y, payload } = props;
+            return (
+              <text
+                x={x}
+                y={y}
+                textAnchor="end"
+                transform={`rotate(-30, ${x}, ${y})`}
+                fill="#c8a165"
+              >
+                {payload.value}
+              </text>
+            );
+          }} 
         />
-        <Bar dataKey="count" fill="#c8a165" cursor="pointer" />
-      </BarChart>
-    </ResponsiveContainer>
+      </>
+    ) : (
+      <>
+        <XAxis
+          dataKey="language"
+          stroke="#c8a165"
+          angle={-30}
+          textAnchor="end"
+          interval={0}
+        />
+        <YAxis stroke="#c8a165" />
+      </>
+    )}
+    <Tooltip
+      contentStyle={{
+        backgroundColor: "#1a1a1a",
+        border: "1px solid #4a2f1b",
+        color: "#c8a165",
+      }}
+    />
+    <Bar dataKey="count" fill="#c8a165" cursor="pointer" />
+  </BarChart>
+</ResponsiveContainer>
+
   )}
 </div>
+
 
 
     </div>
