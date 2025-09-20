@@ -254,7 +254,7 @@ export default function Home() {
               onClick={() => handleNavigation("about")}
               className={`group relative px-6 py-3 text-[#c8a165] cursor-pointer font-medium rounded-lg overflow-hidden transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white ${activeSection === "about" ? "text-white border-white" : ""}`}
             >
-              <span className="relative z-10 transition-colors duration-300">About Me</span>
+              <span className="relative z-10 transition-colors duration-300">Services</span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#4a2f1b] to-[#2c4a1b] opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out" />
               <div className="absolute inset-0 bg-[#1a1a1a] group-hover:scale-105 transition-transform duration-300 ease-out" />
             </button>

@@ -10,6 +10,14 @@ type GitHubRepo = {
   language: string | null;
 };
 
+type LanguageStat = {
+  language: string;
+  count: number;
+  percent: number;
+  repos: number;
+};
+
+
 export default function Projects() {
   const projects = [
     {
@@ -47,37 +55,44 @@ export default function Projects() {
   ];
 
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
-  const [languageData, setLanguageData] = useState<{ language: string; count: number }[]>([]);
+  const [languageData, setLanguageData] = useState<LanguageStat[]>([]);
   const [showAll, setShowAll] = useState(false);
 
-  useEffect(() => {
-    fetch("/api/github/repos")
-      .then((res) => res.json())
-      .then((data: any[]) => {
-        const filtered: GitHubRepo[] = data.map((repo: any) => ({
-          name: repo.name || "No name",
-          description: repo.description || "No description",
-          language: repo.language || "Unknown",
-        }));
-        setRepos(filtered);
+useEffect(() => {
+  fetch("/api/github/repos")
+    .then((res) => res.json())
+    .then((data) => {
+      // raw repos still available
+      const filtered: GitHubRepo[] = data.repos.map((repo: any) => ({
+        name: repo.name || "No name",
+        description: repo.description || "No description",
+        language: repo.language || "Unknown",
+      }));
+      setRepos(filtered);
 
-        const langCount: Record<string, number> = {};
-        filtered.forEach((repo) => {
-          const lang = repo.language || "Unknown";
-          langCount[lang] = (langCount[lang] || 0) + 1;
-        });
-
-        const chartData = Object.entries(langCount).map(([language, count]) => ({
-          language,
-          count,
-        }));
-        setLanguageData(chartData);
-      })
-      .catch((err) => console.error(err));
-  }, []);
-
+      // 🔹 use the pre-aggregated languages from the API
+      if (data.languages) {
+        setLanguageData(data.languages);
+      }
+    })
+    .catch((err) => console.error(err));
+}, []);
   // Decide which projects to display
   const displayedProjects = showAll ? projects : projects.slice(0, 3);
+
+const projectLinks: Record<string, string> = {
+  "ZP Burger House": "https://zpcalauan.com",
+  "MPDC Website": "https://malvedaproperties.com",
+  "LeadsAgri Website": "https://leadsagri.site",
+  "Farmex Website": "https://farmex.shop",
+};
+
+const projectStatus: Record<string, "Completed" | "Ongoing"> = {
+  "ZP Burger House": "Completed",
+  "MPDC Website": "Completed",
+  "LeadsAgri Website": "Ongoing",
+  "Farmex Website": "Ongoing",
+};
 
   return (
     <div className="relative w-full animate-fade-in">
@@ -138,7 +153,8 @@ export default function Projects() {
                 project.title === "LeadsAgri Website") && (
                   <div className="absolute bottom-4 right-4 flex flex-col items-end gap-2">
                     <span
-                      className={`px-3 py-1 text-sm font-medium rounded-full inline-flex items-center ${["LeadsAgri Website", "Farmex Website"].includes(project.title)
+                      className={`px-3 py-1 text-sm font-medium rounded-full inline-flex items-center ${projectStatus[project.title]}
+
                         ? "text-orange-300 bg-orange-300/10"
                         : "text-green-500 bg-green-500/10"
                         }`}
@@ -156,18 +172,17 @@ export default function Projects() {
                         : "Completed"}
                     </span>
                     <div className="relative group">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (project.title === "ZP Burger House") window.open("https://zpcalauan.com", "_blank");
-                          if (project.title === "MPDC Website") window.open("https://malvedaproperties.com", "_blank");
-                          if (project.title === "LeadsAgri Website") window.open("https://leadsagri.site", "_blank");
-                          if (project.title === "Farmex Website") window.open("https://farmex.shop", "_blank");
-                        }}
-                        className="px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
-                      >
-                        Preview
-                      </button>
+<button
+  onClick={(e) => {
+    e.stopPropagation();
+    const url = projectLinks[project.title];
+    if (url) window.open(url, "_blank");
+  }}
+  className="px-4 py-2 text-[#c8a165] text-sm font-medium rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:text-white border border-[#4a2f1b]/30 hover:border-white"
+>
+  Preview
+</button>
+
 
                       {/* Hover preview image */}
                       <motion.div
@@ -238,60 +253,68 @@ export default function Projects() {
         Loading Graph...
       </p>
     </div>
-  ) : (
-  <ResponsiveContainer width="100%" height={300}>
-  <BarChart
-    data={languageData}
-    layout={window.innerWidth < 640 ? "vertical" : "horizontal"}
-    margin={{ top: 20, right: 30, left: 40, bottom: 20 }}
-  >
-    {window.innerWidth < 640 ? (
-      <>
-        <XAxis type="number" stroke="#c8a165" />
-        <YAxis
-          dataKey="language"
-          type="category"
-          stroke="#c8a165"
-          tick={(props) => {
-            const { x, y, payload } = props;
-            return (
-              <text
-                x={x}
-                y={y}
-                textAnchor="end"
-                transform={`rotate(-30, ${x}, ${y})`}
-                fill="#c8a165"
-              >
-                {payload.value}
-              </text>
-            );
-          }} 
-        />
-      </>
     ) : (
-      <>
-        <XAxis
-          dataKey="language"
-          stroke="#c8a165"
-          angle={-30}
-          textAnchor="end"
-          interval={0}
-        />
-        <YAxis stroke="#c8a165" />
-      </>
-    )}
-    <Tooltip
-      contentStyle={{
-        backgroundColor: "#1a1a1a",
-        border: "1px solid #4a2f1b",
-        color: "#c8a165",
-      }}
-    />
-    <Bar dataKey="count" fill="#c8a165" cursor="pointer" />
-  </BarChart>
-</ResponsiveContainer>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 px-4">
 
+      
+{[...languageData]
+  .sort((a, b) => b.percent - a.percent)
+  .map((lang, index) => {
+  const percent = lang.percent;
+  const radius = 42;
+const circumference = 2 * Math.PI * radius;
+
+  return (
+    <motion.div
+      key={lang.language}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      className="flex flex-col items-center justify-center"
+    >
+      {/* Circular progress */}
+      <div className="relative w-24 h-24">
+        <svg className="w-24 h-24 transform -rotate-90">
+          <circle
+            cx="48"
+            cy="48"
+            r="42"
+            stroke="#4a2f1b"
+            strokeWidth="8"
+            fill="transparent"
+          />
+          <motion.circle
+  cx="48"
+  cy="48"
+  r={radius}
+  stroke="#c8a165"
+  strokeWidth="8"
+  fill="transparent"
+  strokeDasharray={circumference}
+  strokeDashoffset={circumference * (1 - lang.percent / 100)}
+  strokeLinecap="round"
+  initial={{ strokeDashoffset: circumference }}
+  animate={{ strokeDashoffset: circumference * (1 - lang.percent / 100) }}
+  transition={{ duration: 1 }}
+/>
+        </svg>
+        <span className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-[#c8a165]">
+          {percent}%
+        </span>
+      </div>
+
+      {/* Label + repo count */}
+      <span className="mt-2 text-[#c8a165] font-medium">{lang.language}</span>
+      <span className="text-xs text-[#c8a165]/70">
+        {lang.repos} repo{lang.repos > 1 ? "s" : ""}
+      </span>
+    </motion.div>
+  );
+})}
+
+    </div>
   )}
+
 </div>
 
 

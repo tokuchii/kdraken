@@ -1,7 +1,5 @@
 import Image from "next/image";
 import { useState } from "react";
-import { FaGamepad } from "react-icons/fa";
-import { SiDota2, SiValorant, SiCounterstrike } from "react-icons/si";
 import {
   SiReact,
   SiNextdotjs,
@@ -17,7 +15,9 @@ import {
   SiMongodb,
   SiVite,
   SiVercel,
-  SiHostinger
+  SiHostinger,
+  SiAdobe,
+  SiFigma,
 } from "react-icons/si";
 
  
@@ -105,71 +105,59 @@ export default function About() {
           </div>
         </div>
       </div>
-      <div className="mb-2 sm:mb-8">
-        <h3 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-[#c8a165]">Personal Information</h3>
-        <div className="overflow-x-auto">
-          <table className="min-w-full">
-            <tbody>
-              <tr>
-                <td className="py-2 px-2 sm:px-4 font-medium text-[#c8a165]">Name</td>
-                <td className="py-2 px-2 sm:px-4 text-[#c8a165]">Kenneth Kieser T. Macabos</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2 sm:px-4 font-medium text-[#c8a165]">Age</td>
-                <td className="py-2 px-2 sm:px-4 text-[#c8a165]">23</td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2 sm:px-4 font-medium text-[#c8a165]">Location</td>
-                <td className="py-2 px-2 sm:px-4 text-[#c8a165]">
-                  <a
-                    href="https://www.google.com/maps/place/14%C2%B010'00.6%22N+121%C2%B020'46.7%22E/@14.1668303,121.3456703,19z/data=!3m1!4b1!4m4!3m3!8m2!3d14.166829!4d121.346314?entry=ttu&g_ep=EgoyMDI1MDYwMi4wIKXMDSoASAFQAw%3D%3D"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline transition-all duration-300 text-sm sm:text-base"
-                  >
-                    Purok 4 Blk 16 Lot 35 Brgy. Sto. Tomas Calauan, Laguna
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2 sm:px-4 font-medium text-[#c8a165]">Contact</td>
-                <td className="py-2 px-2 sm:px-4 text-[#c8a165]">
-                  <a
-                    href="tel:+639361687804"
-                    className="underline transition-all duration-300 text-sm sm:text-base"
-                  >
-                    +63 936 168 7804
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-2 px-2 sm:px-4 font-medium text-[#c8a165]">Hobbies</td>
-                <td className="py-2 px-2 sm:px-4 text-[#c8a165]">
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                    <div className="flex items-center gap-1 sm:gap-2 group">
-                      <SiDota2 className="w-5 h-5 sm:w-6 sm:h-6 transition-colors duration-300 group-hover:text-[#F9660E]" />
-                      <span className="text-sm sm:text-base transition-transform duration-300 group-hover:scale-110">Dota 2</span>
-                    </div>
-                    <div className="flex items-center gap-1 sm:gap-2 group">
-                      <SiValorant className="w-5 h-5 sm:w-6 sm:h-6 transition-colors duration-300 group-hover:text-[#FF4655]" />
-                      <span className="text-sm sm:text-base transition-transform duration-300 group-hover:scale-110">Valorant</span>
-                    </div>
-                    <div className="flex items-center gap-1 sm:gap-2 group">
-                      <SiCounterstrike className="w-5 h-5 sm:w-6 sm:h-6 transition-colors duration-300 group-hover:text-[#FFD700]" />
-                      <span className="text-sm sm:text-base transition-transform duration-300 group-hover:scale-110">CS:GO</span>
-                    </div>
-                    <div className="flex items-center gap-1 sm:gap-2 group">
-                      <FaGamepad className="w-5 h-5 sm:w-6 sm:h-6 transition-colors duration-300 group-hover:text-[#4CAF50]" />
-                      <span className="text-sm sm:text-base transition-transform duration-300 group-hover:scale-110">Open World Games</span>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      
+<div className="mb-8 sm:mb-12">
+  <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-[#c8a165] text-center">
+    What I Offer
+  </h3>
+  <p className="text-sm sm:text-base text-[#c8a165]/90 text-center max-w-5xl mx-auto mb-8 sm:mb-10 leading-relaxed">
+    I specialize in web development, crafting modern, interactive, and responsive websites 
+    for businesses and individuals. From e-commerce platforms to dynamic web apps, 
+    I bring ideas to life with creativity, performance, and attention to detail.
+  </p>
 
-      </div>
+
+  {/* Services Section */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
+    <div className="bg-[#1a1a1a]/50 border border-[#4a2f1b]/30 rounded-lg p-4 flex flex-col items-center text-center hover:border-[#c8a165] transition-all duration-300">
+      <SiReact className="w-10 h-10 mb-2 text-[#61DAFB]" />
+      <h4 className="text-sm sm:text-base font-semibold text-[#c8a165] mb-1">Web Development</h4>
+      <p className="text-xs sm:text-sm text-[#c8a165]/70">
+        Modern, responsive websites and web apps using React, Vue, and Next.js.
+      </p>
+    </div>
+
+
+     <div className="bg-[#1a1a1a]/50 border border-[#4a2f1b]/30 rounded-lg p-4 flex flex-col items-center text-center hover:border-[#c8a165] transition-all duration-300">
+    <SiAdobe className="w-10 h-10 mb-2 text-[#FF0000]" />
+    <h4 className="text-sm sm:text-base font-semibold text-[#c8a165] mb-1">Video Editing</h4>
+    <p className="text-xs sm:text-sm text-[#c8a165]/70">
+      Creating engaging video content, editing clips, and motion graphics.
+    </p>
+  </div>
+
+  <div className="bg-[#1a1a1a]/50 border border-[#4a2f1b]/30 rounded-lg p-4 flex flex-col items-center text-center hover:border-[#c8a165] transition-all duration-300">
+    <SiFigma className="w-10 h-10 mb-2 text-[#F24E1E]" />
+    <h4 className="text-sm sm:text-base font-semibold text-[#c8a165] mb-1">Graphic Design</h4>
+    <p className="text-xs sm:text-sm text-[#c8a165]/70">
+      Designing visuals, illustrations, and branding materials.
+    </p>
+  </div>
+
+    <div className="bg-[#1a1a1a]/50 border border-[#4a2f1b]/30 rounded-lg p-4 flex flex-col items-center text-center hover:border-[#c8a165] transition-all duration-300">
+      <SiFirebase className="w-10 h-10 mb-2 text-[#FFCA28]" />
+      <h4 className="text-sm sm:text-base font-semibold text-[#c8a165] mb-1">Backend & Cloud</h4>
+      <p className="text-xs sm:text-sm text-[#c8a165]/70">
+        Scalable backend systems with Firebase, Node.js, Laravel, and database management.
+      </p>
+    </div>
+  </div>
+
+
+
+</div>
+
+
 <hr className="my-8 border-t-2 border-[#c8a165]" />
 
       <div className="space-y-4 text-[#c8a165]">
