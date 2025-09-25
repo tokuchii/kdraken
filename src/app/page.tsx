@@ -294,7 +294,7 @@ export default function Home() {
                 onClick={() => handleNavigation("about")}
                 className={`w-full text-left px-4 py-3 text-[#c8a165] font-medium rounded-lg transition-all duration-300 hover:text-white hover:bg-[#4a2f1b]/30 ${activeSection === "about" ? "text-white bg-[#4a2f1b]/30" : ""}`}
               >
-                About Me
+                Services
               </button>
               <button
                 onClick={() => handleNavigation("projects")}
