@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, FormEvent, useRef } from "react";
-import { Mail, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Send } from "lucide-react";
+import { toast } from "sonner";
 import { socialLinks } from "@/lib/data";
 import FadeIn from "../ui/FadeIn";
 
@@ -21,10 +22,9 @@ function validateEmail(email: string): boolean {
 }
 
 export default function Contact() {
-  const [formState, setFormState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [sending, setSending] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [errorMsg, setErrorMsg] = useState("");
   const loadTime = useRef(Date.now());
   const lastSubmit = useRef(0);
 
@@ -61,11 +61,10 @@ export default function Contact() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setErrorMsg("");
 
     const now = Date.now();
     if (now - lastSubmit.current < 5000) {
-      setErrorMsg("Please wait before submitting again.");
+      toast.warning("Please wait before submitting again.");
       return;
     }
 
@@ -76,7 +75,10 @@ export default function Contact() {
     }
 
     lastSubmit.current = now;
-    setFormState("sending");
+    setSending(true);
+
+    const toastId = toast.loading("Sending your message...");
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -91,12 +93,20 @@ export default function Contact() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed");
-      setFormState("sent");
+
+      toast.success("Message sent!", {
+        id: toastId,
+        description: "Thanks for reaching out. I'll get back to you soon.",
+      });
       setFormData({ name: "", email: "", subject: "", message: "" });
       setErrors({});
     } catch (err) {
-      setFormState("error");
-      setErrorMsg(err instanceof Error ? err.message : "Failed to send message. Please try again.");
+      toast.error("Failed to send", {
+        id: toastId,
+        description: err instanceof Error ? err.message : "Something went wrong. Please try again later.",
+      });
+    } finally {
+      setSending(false);
     }
   }
 
@@ -182,24 +192,13 @@ export default function Contact() {
               {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
             </div>
 
-            {formState === "sent" && (
-              <div className="flex items-center gap-2 text-green-500 text-sm">
-                <CheckCircle size={16} /> Message sent successfully!
-              </div>
-            )}
-            {(formState === "error" || errorMsg) && (
-              <div className="flex items-center gap-2 text-red-500 text-sm">
-                <AlertCircle size={16} /> {errorMsg || "Failed to send message. Please try again."}
-              </div>
-            )}
-
             <button
               type="submit"
-              disabled={formState === "sending"}
+              disabled={sending}
               className="btn-hover inline-flex items-center justify-center px-8 py-3 bg-accent text-white text-sm font-medium rounded-xl hover:opacity-90 transition-opacity min-h-[44px] min-w-[44px] disabled:opacity-50"
             >
               <Send size={16} className="mr-2" />
-              {formState === "sending" ? "Sending..." : "Send Message"}
+              {sending ? "Sending..." : "Send Message"}
             </button>
           </form>
         </FadeIn>

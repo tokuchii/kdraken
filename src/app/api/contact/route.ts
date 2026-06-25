@@ -161,18 +161,82 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Message content looks suspicious" }, { status: 400 });
     }
 
+    const now = new Date();
+    const dateStr = now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+    const timeStr = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+
     await transporter.sendMail({
-      from: `"${name}" <${process.env.SMTP_USER}>`,
+      from: `"Portfolio Contact" <${process.env.SMTP_USER}>`,
       replyTo: email,
       to: process.env.SMTP_TO || process.env.SMTP_USER,
       subject: `[Portfolio] ${subject}`,
       html: `
-        <h2>New message from your portfolio</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <hr />
-        <p>${message.replace(/\n/g, "<br />")}</p>
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="margin:0;padding:0;background-color:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f5;padding:32px 16px;">
+            <tr>
+              <td align="center">
+                <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+                  <tr>
+                    <td style="background:linear-gradient(135deg,#2563EB 0%,#3B82F6 100%);padding:32px 40px;">
+                      <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:600;letter-spacing:-0.3px;">New Message from Portfolio</h1>
+                      <p style="margin:8px 0 0;color:rgba(255,255,255,0.8);font-size:14px;">${dateStr} at ${timeStr}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:32px 40px;">
+                      <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td style="padding-bottom:20px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc;border-radius:12px;padding:20px;border:1px solid #e2e8f0;">
+                              <tr>
+                                <td style="padding:0 20px 12px 20px;">
+                                  <p style="margin:0;font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">From</p>
+                                  <p style="margin:4px 0 0;font-size:16px;font-weight:600;color:#1e293b;">${name}</p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="padding:12px 20px;">
+                                  <p style="margin:0;font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Email</p>
+                                  <p style="margin:4px 0 0;font-size:14px;color:#2563EB;">${email}</p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="padding:12px 20px 20px 20px;">
+                                  <p style="margin:0;font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Subject</p>
+                                  <p style="margin:4px 0 0;font-size:14px;color:#1e293b;">${subject}</p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <p style="margin:0 0 8px;font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;">Message</p>
+                            <div style="background-color:#f8fafc;border-radius:12px;padding:20px;border:1px solid #e2e8f0;font-size:15px;line-height:1.6;color:#334155;white-space:pre-wrap;">${message.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br />")}</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:20px 40px;background-color:#f8fafc;border-top:1px solid #e2e8f0;">
+                      <p style="margin:0;font-size:12px;color:#94a3b8;text-align:center;">
+                        Sent via your portfolio contact form &bull; Reply directly to this email to respond to ${name}
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
       `,
     });
 
