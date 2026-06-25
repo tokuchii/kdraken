@@ -2,6 +2,34 @@ import { Project } from "./types";
 
 const GITHUB_USERNAME = "tokuchii";
 
+const liveUrls: Record<string, string> = {
+  "kdraken": "https://kdraken.vercel.app",
+  "oasis-gym": "https://oasis-gym.vercel.app",
+  "farmex": "https://www.leadsfarmex.com/",
+  "leads": "https://leadsagri.com/",
+  "copypastev1": "https://copypastev1.vercel.app",
+  "mpdc": "https://malvedaproperties.com/",
+};
+
+const projectDescriptions: Record<string, string> = {
+  "kdraken": "A personal portfolio showcasing projects and skills with a clean, responsive design.",
+  "oasis-gym": "A fitness platform for managing workouts, tracking progress, and scheduling training sessions.",
+  "farmex": "An agriculture platform for managing farm operations, tracking crops, and optimizing harvests.",
+  "leads": "A lead management system for tracking prospects, managing customer relationships, and streamlining sales.",
+  "admin-burger-shop": "A food ordering system for managing menu items, processing orders, and tracking inventory.",
+  "burger-shop1": "A customer-facing burger shop ordering interface with responsive design.",
+  "copypastev1": "A clipboard utility for managing text snippets and streamlining copy-paste workflows.",
+  "mpdc": "A property management web application built with Vue and PHP.",
+};
+
+const featuredRepos = new Set([
+  "kdraken",
+  "oasis-gym",
+  "farmex",
+  "leads",
+  "mpdc",
+]);
+
 interface GitHubRepo {
   name: string;
   description: string | null;
@@ -146,25 +174,7 @@ export async function fetchRepos(): Promise<Project[]> {
           // Use fallback from repo.language
         }
 
-        let description = repo.description || "";
-
-        if (!description) {
-          try {
-            const readmeRes = await fetch(
-              `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/${repo.default_branch}/README.md`
-            );
-            if (readmeRes.ok) {
-              const readme = await readmeRes.text();
-              description = extractDescription(readme);
-            }
-          } catch {
-            // Use generated description
-          }
-        }
-
-        if (!description) {
-          description = generateDescription(repo.name, tags, repo.topics);
-        }
+        const description = projectDescriptions[repo.name] || repo.description || generateDescription(repo.name, tags, repo.topics);
 
         const category = detectCategory(tags, repo.topics);
 
@@ -177,9 +187,9 @@ export async function fetchRepos(): Promise<Project[]> {
           tags,
           links: {
             github: repo.html_url,
-            ...(repo.homepage ? { live: repo.homepage } : {}),
+            ...(liveUrls[repo.name] ? { live: liveUrls[repo.name] } : repo.homepage ? { live: repo.homepage } : {}),
           },
-          featured: index < 3,
+          featured: featuredRepos.has(repo.name),
           category,
           accentIndex: index % 5,
         };
