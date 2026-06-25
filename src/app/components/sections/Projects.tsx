@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Project } from "@/lib/types";
-import { fetchRepos } from "@/lib/github";
 import SectionHeading from "../ui/SectionHeading";
 import ProjectCard from "../ui/ProjectCard";
 
@@ -28,10 +27,12 @@ export default function Projects() {
   const [activeCategory, setActiveCategory] = useState("All");
 
   useEffect(() => {
-    fetchRepos().then((repos) => {
-      setProjects(repos);
-      setLoading(false);
-    });
+    fetch("/api/repos")
+      .then((res) => res.json())
+      .then((repos) => {
+        setProjects(repos);
+        setLoading(false);
+      });
   }, []);
 
   const filtered =

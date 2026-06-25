@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { aboutContent, GITHUB_USERNAME } from "@/lib/data";
+import { aboutContent } from "@/lib/data";
 import SectionHeading from "../ui/SectionHeading";
 import FadeIn from "../ui/FadeIn";
 
@@ -10,7 +10,7 @@ export default function About() {
   const [stats, setStats] = useState(aboutContent.stats);
 
   useEffect(() => {
-    fetch(`https://api.github.com/users/${GITHUB_USERNAME}`)
+    fetch("/api/user")
       .then((res) => res.json())
       .then((user) => {
         if (user.public_repos) {

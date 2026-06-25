@@ -102,7 +102,12 @@ const fallbackProjects: Project[] = [
 export async function fetchRepos(): Promise<Project[]> {
   try {
     const res = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=10`
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        },
+      }
     );
 
     if (!res.ok) {
@@ -125,7 +130,11 @@ export async function fetchRepos(): Promise<Project[]> {
         }
 
         try {
-          const langRes = await fetch(repo.languages_url);
+          const langRes = await fetch(repo.languages_url, {
+            headers: {
+              Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+            },
+          });
           if (langRes.ok) {
             const languages: GitHubLanguages = await langRes.json();
             tags = Object.entries(languages)
