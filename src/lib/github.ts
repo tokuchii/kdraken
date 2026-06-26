@@ -98,24 +98,6 @@ const fallbackProjects: Project[] = [
     accentIndex: 4,
   },
   {
-    id: "burger-shop1",
-    title: "Burger Shop",
-    description: "A customer-facing burger shop ordering interface with responsive design.",
-    tags: ["JavaScript", "HTML", "CSS"],
-    links: { github: "https://github.com/tokuchii/burger-shop1" },
-    category: "frontend",
-    accentIndex: 0,
-  },
-  {
-    id: "copypastev1",
-    title: "CopyPaste v1",
-    description: "A clipboard utility for managing text snippets and streamlining copy-paste workflows.",
-    tags: ["TypeScript", "CSS", "JavaScript"],
-    links: { github: "https://github.com/tokuchii/copypastev1", live: "https://copypastev1.vercel.app" },
-    category: "frontend",
-    accentIndex: 1,
-  },
-  {
     id: "mpdc",
     title: "MPDC",
     description: "A property management web application built with Vue and PHP.",
@@ -130,7 +112,7 @@ const fallbackProjects: Project[] = [
 export async function fetchRepos(): Promise<Project[]> {
   try {
     const res = await fetch(
-      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=10`,
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed`,
       {
         headers: {
           Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
