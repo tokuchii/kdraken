@@ -56,8 +56,7 @@ export default function Hero() {
             fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
           }}
         >
-          I build clean, performant web applications that solve real problems.
-          Based in Laguna, Philippines — always learning, always shipping.
+         I've spent the last few years building web apps end-to-end — from database to UI. I care about performance, maintainability, and getting things done right.
         </motion.p>
 
         <motion.div

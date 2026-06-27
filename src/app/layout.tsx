@@ -15,12 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kenneth Kieser Macabos — Full-Stack Developer",
+  title: "kdraken_",
   description:
     "Full-Stack Developer building clean, performant web applications. Based in Laguna, Philippines.",
   keywords: ["developer", "full-stack", "portfolio", "Next.js", "React"],
   openGraph: {
-    title: "Kenneth Kieser Macabos — Full-Stack Developer",
+    title: "kdraken_",
     description:
       "Full-Stack Developer building clean, performant web applications.",
     type: "website",
