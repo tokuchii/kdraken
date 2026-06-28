@@ -6,7 +6,7 @@ import FadeIn from "../ui/FadeIn";
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-16 sm:py-20 xl:py-24 bg-surface">
+    <section id="experience" className="py-10 sm:py-14 xl:py-16 bg-surface web-pattern">
       <div className="max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0">
         <SectionHeading eyebrow="Where I've worked" title="Experience" />
 

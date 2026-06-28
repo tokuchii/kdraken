@@ -23,7 +23,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
   return (
     <FadeIn delay={index * 0.08}>
-      <div className="group relative border border-border rounded-xl overflow-hidden bg-background hover:border-accent h-full flex flex-col card-hover">
+      <div className="group relative border border-border rounded-xl overflow-hidden bg-background hover:border-accent h-full flex flex-col card-hover spider-sense web-corner">
         <div className="h-1 w-full" style={{ backgroundColor: accentColor }} />
 
         <div className="p-5 flex-1 flex flex-col">

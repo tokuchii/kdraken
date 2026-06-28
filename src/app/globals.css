@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@variant dark (&:is(.dark *));
+
 @theme {
   --color-background: #FAFAFA;
   --color-surface: #F4F4F5;
@@ -135,6 +137,138 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Spider-sense tingle on hover */
+.spider-sense {
+  position: relative;
+}
+.spider-sense::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.spider-sense:hover::after {
+  opacity: 1;
+}
+
+/* Web-line section divider */
+.web-divider {
+  position: relative;
+  height: 48px;
+  overflow: hidden;
+}
+.web-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-border) 20%, var(--color-border) 80%, transparent 100%);
+}
+.web-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Web pattern background for surface sections */
+.web-pattern {
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.02) 0%, transparent 50%);
+}
+
+/* Subtle web corner decoration */
+.web-corner {
+  position: relative;
+}
+.web-corner::before,
+.web-corner::after {
+  content: '';
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-color: var(--color-border);
+  border-style: solid;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+.web-corner::before {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+.web-corner::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
+.web-corner:hover::before,
+.web-corner:hover::after {
+  opacity: 0.7;
+}
+
+/* Spider-sense pulse animation */
+@keyframes spider-tingle {
+  0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.2); }
+  70% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+.spider-tingle:hover {
+  animation: spider-tingle 0.6s ease-out;
+}
+
+/* Web-line hover effect on links */
+.web-line-hover {
+  position: relative;
+}
+.web-line-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-accent), transparent);
+  transition: width 0.3s ease;
+}
+.web-line-hover:hover::after {
+  width: 100%;
+}
+
+/* Swinging motion for scroll arrow */
+@keyframes web-swing {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(4px) rotate(2deg); }
+  75% { transform: translateY(4px) rotate(-2deg); }
+}
+.animate-web-swing {
+  animation: web-swing 2s ease-in-out infinite;
+}
+
+/* Fade-in for web elements */
+@keyframes webFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Hero web corner glow */
+.web-glow {
+  filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.15));
 }
 
 @media (prefers-reduced-motion: reduce) {

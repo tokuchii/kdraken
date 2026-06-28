@@ -11,6 +11,7 @@ export default function LoaderOverlay() {
   const [phase, setPhase] = useState<Phase>("web");
   const [fading, setFading] = useState(false);
   const [sliding, setSliding] = useState(false);
+  const [showCoffee, setShowCoffee] = useState(false);
   const [pct, setPct] = useState(0);
   const [hud, setHud] = useState({
     threads: 0,
@@ -23,9 +24,26 @@ export default function LoaderOverlay() {
   const prtRef = useRef<HTMLCanvasElement>(null);
   const darkRef = useRef(false);
 
+  const lockScroll = useCallback(() => {
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${window.scrollY}px`;
+    document.body.style.width = "100%";
+  }, []);
+
+  const unlockScroll = useCallback(() => {
+    const top = document.body.style.top;
+    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    if (top) window.scrollTo(0, parseInt(top || "0") * -1);
+  }, []);
+
   useEffect(() => {
     setMounted(true);
-  }, []);
+    lockScroll();
+  }, [lockScroll]);
 
   useEffect(() => {
     if (mounted) {
@@ -38,8 +56,12 @@ export default function LoaderOverlay() {
   const dismiss = useCallback(() => {
     if (phase === "done" || sliding) return;
     setSliding(true);
-    setTimeout(() => setPhase("done"), 800);
-  }, [phase, sliding]);
+    setTimeout(() => {
+      setPhase("done");
+      unlockScroll();
+      setTimeout(() => setShowCoffee(true), 10000);
+    }, 800);
+  }, [phase, sliding, unlockScroll]);
 
   useEffect(() => {
     if (phase === "done") return;
@@ -340,9 +362,10 @@ export default function LoaderOverlay() {
     };
   }, []);
 
-  if (phase === "done") return null;
+  if (phase === "done" && !showCoffee) return null;
 
   return (
+    <>
     <div
       className={`fixed inset-0 z-[9999] overflow-hidden ${
         sliding ? "pointer-events-none" : ""
@@ -471,7 +494,73 @@ export default function LoaderOverlay() {
           0%, 100% { opacity: 0.6; }
           50% { opacity: 1; }
         }
+        @keyframes modalIn {
+          from { opacity: 0; transform: scale(0.9) translateY(10px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
       `}</style>
     </div>
+
+    {/* Buy Me a Coffee modal — first session only */}
+    {showCoffee && (
+      <div
+        className="fixed inset-0 z-[10000] flex items-center justify-center p-4"
+        style={{ background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }}
+        onClick={() => { setShowCoffee(false); unlockScroll(); }}
+      >
+        <div
+          className={`relative max-w-sm w-full rounded-2xl p-8 text-center ${
+            isDark ? "bg-[#18181B] border border-[#27272A]" : "bg-white border border-[#E4E4E7] shadow-xl"
+          }`}
+          onClick={(e) => e.stopPropagation()}
+          style={{ animation: "modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards" }}
+        >
+          <button
+            onClick={() => { setShowCoffee(false); unlockScroll(); }}
+            className={`absolute top-4 right-4 text-xs cursor-pointer ${isDark ? "text-white/30 hover:text-white/60" : "text-black/30 hover:text-black/60"}`}
+          >
+            ✕
+          </button>
+
+          <h3 className={`text-lg font-extrabold tracking-tight mb-2 ${isDark ? "text-white" : "text-black"}`}>
+            Enjoying the site?
+          </h3>
+
+          <p className={`text-sm mb-5 leading-relaxed ${isDark ? "text-white/70" : "text-black/60"}`}>
+            If this portfolio impressed you, consider buying me a coffee. It keeps me building.
+          </p>
+
+          <div className="flex flex-col items-center gap-4">
+            <img
+              src="/files/qr-code.png"
+              alt="Buy me a coffee QR code"
+              className={`w-36 h-36 rounded-xl object-contain ${isDark ? "bg-white p-1" : "bg-white border border-[#E4E4E7] p-1"}`}
+            />
+
+            <a
+              href="https://buymeacoffee.com/kendrake"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-[1.03] active:scale-[0.98]"
+              style={{
+                background: "#FFDD00",
+                color: "#000000",
+              }}
+            >
+              <span className="text-lg">☕</span>
+              Buy me a coffee
+            </a>
+          </div>
+
+          <button
+            onClick={() => { setShowCoffee(false); unlockScroll(); }}
+            className={`block mx-auto mt-4 text-xs cursor-pointer ${isDark ? "text-white/25 hover:text-white/50" : "text-black/25 hover:text-black/50"}`}
+          >
+            Maybe later
+          </button>
+        </div>
+      </div>
+    )}
+    </>
   );
 }

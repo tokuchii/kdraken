@@ -26,7 +26,7 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="py-16 sm:py-20 xl:py-24">
+    <section id="about" className="py-10 sm:py-14 xl:py-16">
       <div className="max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0">
         <SectionHeading eyebrow="Who I am" title="About" />
 

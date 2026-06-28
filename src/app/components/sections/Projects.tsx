@@ -46,7 +46,7 @@ export default function Projects() {
   const displayed = showAll ? filtered : filtered.slice(0, INITIAL_COUNT);
 
   return (
-    <section id="projects" className="py-16 sm:py-20 xl:py-24 bg-surface">
+    <section id="projects" className="py-10 sm:py-14 xl:py-16 bg-surface web-pattern">
       <div className="max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0">
         <SectionHeading eyebrow="Selected work" title="Projects" />
 
