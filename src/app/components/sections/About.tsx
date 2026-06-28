@@ -54,7 +54,7 @@ export default function About() {
             <div className="grid grid-cols-2 gap-6 lg:grid-cols-1">
               {stats.map((stat, i) => (
                 <div key={i}>
-                  <span className="font-mono text-2xl text-text-1">
+                  <span className="font-mono text-2xl text-text-1 font-extrabold">
                     {stat.value}
                   </span>
                   <p className="font-mono text-[11px] text-text-2 mt-1">

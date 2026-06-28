@@ -16,7 +16,7 @@ export default function Experience() {
               <div className="relative">
                 <div className="absolute -left-[calc(1.5rem+4px)] lg:-left-[calc(2rem+4px)] top-1 w-2 h-2 rounded-full bg-accent" />
 
-                <h3 className="font-medium text-base text-text-1">
+                <h3 className="font-extrabold text-base text-text-1 tracking-tight">
                   {job.role}
                 </h3>
                 <p className="text-sm text-text-2">

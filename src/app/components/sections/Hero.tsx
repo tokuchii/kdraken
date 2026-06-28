@@ -24,7 +24,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
-            className="font-medium text-text-1 leading-tight"
+            className="font-extrabold text-text-1 leading-tight tracking-tight"
             style={{
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
             }}
@@ -38,7 +38,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, ease: "easeOut", delay: 0.24 }}
-            className="font-medium text-text-1 leading-tight mt-1"
+            className="font-extrabold text-text-1 leading-tight mt-1 tracking-tight"
             style={{
               fontSize: "clamp(2rem, 5vw, 3.5rem)",
             }}

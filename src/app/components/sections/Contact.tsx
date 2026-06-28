@@ -115,7 +115,7 @@ export default function Contact() {
       <div className="max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0 text-center">
         <FadeIn>
           <h2
-            className="font-medium text-text-1 mb-4"
+            className="font-extrabold text-text-1 mb-4 tracking-tight"
             style={{ fontSize: "clamp(2rem, 4vw, 2.75rem)" }}
           >
             Let&apos;s build something.

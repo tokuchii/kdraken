@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
+import LoaderOverlay from "./components/ui/LoaderOverlay";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,7 +38,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="light">
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <LoaderOverlay />
           {children}
           <Toaster
             position="bottom-right"

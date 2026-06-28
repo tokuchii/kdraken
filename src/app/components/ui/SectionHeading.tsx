@@ -10,7 +10,7 @@ export default function SectionHeading({ eyebrow, title }: SectionHeadingProps) 
         {eyebrow}
       </p>
       <h2
-        className="font-medium text-text-1"
+        className="font-extrabold text-text-1 tracking-tight"
         style={{
           fontSize: "clamp(1.5rem, 3vw, 2rem)",
         }}

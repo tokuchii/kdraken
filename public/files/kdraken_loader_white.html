@@ -1,0 +1,238 @@
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+#wrap{width:100%;height:580px;background:#ffffff;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;font-family:'Inter',var(--font-sans)}
+canvas{position:absolute;top:0;left:0;width:100%;height:100%}
+#web-canvas{z-index:2}
+#prt-canvas{z-index:3;pointer-events:none}
+#scan{position:absolute;top:0;left:0;width:100%;height:100%;z-index:4;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 3px,rgba(0,0,0,0.012) 3px,rgba(0,0,0,0.012) 4px)}
+#reveal-mask{position:absolute;top:0;left:0;width:100%;height:100%;z-index:10;pointer-events:none;background:#ffffff;clip-path:circle(52% at 50% 50%)}
+#reveal-mask.open{clip-path:circle(0% at 50% 50%);transition:clip-path 2s cubic-bezier(0.86,0,0.07,1)}
+#portfolio{position:absolute;top:0;left:0;width:100%;height:100%;z-index:9;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;background:#fafafa}
+#portfolio.in{opacity:1;transition:opacity 0.7s ease 1.1s}
+#pf-eyebrow{font-size:9px;letter-spacing:5px;color:#bbb;text-transform:uppercase;margin-bottom:16px;text-align:center}
+#pf-name{font-size:42px;font-weight:800;color:#111;letter-spacing:4px;line-height:1;text-align:center}
+#pf-divider{width:32px;height:1.5px;background:#111;margin:18px auto}
+#pf-tagline{font-size:10px;letter-spacing:4px;color:#999;text-transform:uppercase;text-align:center}
+#replay-btn{margin-top:36px;padding:9px 28px;border:1px solid #222;background:transparent;border-radius:3px;font-size:9px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;color:#444;font-family:inherit;transition:all 0.2s}
+#replay-btn:hover{background:#111;color:#fff;border-color:#111}
+</style>
+
+<div id="wrap">
+  <canvas id="web-canvas"></canvas>
+  <canvas id="prt-canvas"></canvas>
+  <div id="scan"></div>
+  <div id="reveal-mask"></div>
+  <div id="portfolio">
+    <div id="pf-eyebrow">creative portfolio</div>
+    <div id="pf-name">kdraken_</div>
+    <div id="pf-divider"></div>
+    <div id="pf-tagline">ui designer &nbsp;&middot;&nbsp; ux engineer &nbsp;&middot;&nbsp; web developer</div>
+    <button id="replay-btn" onclick="boot()">↺ replay loader</button>
+  </div>
+</div>
+
+<script>
+const webC=document.getElementById('web-canvas');
+const prtC=document.getElementById('prt-canvas');
+const webX=webC.getContext('2d');
+const prtX=prtC.getContext('2d');
+const wrap=document.getElementById('wrap');
+const mask=document.getElementById('reveal-mask');
+const portfolio=document.getElementById('portfolio');
+
+let W,H,CX,CY,particles=[],raf,pulseRings=[];
+
+function resize(){
+  const r=wrap.getBoundingClientRect();
+  W=r.width; H=wrap.offsetHeight||580;
+  webC.width=prtC.width=W;
+  webC.height=prtC.height=H;
+  CX=W/2; CY=H/2;
+}
+
+function ease(t){return t<0.5?2*t*t:-1+(4-2*t)*t}
+function ease3(t){return 1-Math.pow(1-t,3)}
+
+function drawWeb(prog){
+  webX.clearRect(0,0,W,H);
+  webX.fillStyle='#ffffff';
+  webX.fillRect(0,0,W,H);
+
+  const SPOKES=16, RINGS=12;
+  const maxR=Math.hypot(CX,CY)*1.18;
+  const innerR=4;
+
+  for(let s=0;s<SPOKES;s++){
+    const angle=(s/SPOKES)*Math.PI*2;
+    const sp=Math.max(0,Math.min(1,(prog*SPOKES*1.1-s)/1.8));
+    if(sp<=0) continue;
+    const ep=ease(sp);
+    const x1=CX+Math.cos(angle)*innerR;
+    const y1=CY+Math.sin(angle)*innerR;
+    const x2=CX+Math.cos(angle)*maxR*ep;
+    const y2=CY+Math.sin(angle)*maxR*ep;
+
+    const grd=webX.createLinearGradient(x1,y1,x2,y2);
+    grd.addColorStop(0,'rgba(0,0,0,0.55)');
+    grd.addColorStop(0.15,'rgba(0,0,0,'+(0.28+ep*0.18)+')');
+    grd.addColorStop(0.6,'rgba(0,0,0,'+(0.14+ep*0.1)+')');
+    grd.addColorStop(1,'rgba(0,0,0,0.04)');
+
+    webX.beginPath();
+    webX.moveTo(x1,y1);
+    webX.lineTo(x2,y2);
+    webX.strokeStyle=grd;
+    webX.lineWidth=0.6+ep*0.5;
+    webX.stroke();
+
+    if(ep>0.5){
+      const shimmerX=CX+Math.cos(angle)*maxR*ep*0.55;
+      const shimmerY=CY+Math.sin(angle)*maxR*ep*0.55;
+      const shimmerGrd=webX.createRadialGradient(shimmerX,shimmerY,0,shimmerX,shimmerY,12);
+      shimmerGrd.addColorStop(0,'rgba(0,0,0,0.07)');
+      shimmerGrd.addColorStop(1,'rgba(0,0,0,0)');
+      webX.fillStyle=shimmerGrd;
+      webX.fillRect(shimmerX-12,shimmerY-12,24,24);
+    }
+  }
+
+  for(let r=1;r<=RINGS;r++){
+    const rp=Math.max(0,Math.min(1,(prog*RINGS*1.35-r+1)/1.4));
+    if(rp<=0) continue;
+    const ep=ease(rp);
+    const radius=innerR+(r/RINGS)*(maxR*0.86-innerR);
+
+    webX.beginPath();
+    for(let s=0;s<=SPOKES;s++){
+      const angle=(s/SPOKES)*Math.PI*2;
+      const seed1=Math.sin(s*5.1+r*2.3)*0.4+Math.cos(s*3.7+r*4.1)*0.6;
+      const seed2=Math.cos(s*4.9+r*1.7)*0.5+Math.sin(s*2.3+r*6.3)*0.5;
+      const jx=seed1*3.5;
+      const jy=seed2*3.5;
+      const segFade=0.5+0.5*Math.abs(Math.sin(s*0.9+r*0.4));
+      const x=CX+Math.cos(angle)*radius+jx;
+      const y=CY+Math.sin(angle)*radius+jy;
+      s===0?webX.moveTo(x,y):webX.lineTo(x,y);
+    }
+    webX.closePath();
+    const distFactor=1-(r/RINGS)*0.5;
+    const alpha=(0.06+ep*0.12+(1-r/RINGS)*0.08)*distFactor;
+    webX.strokeStyle=`rgba(0,0,0,${alpha})`;
+    webX.lineWidth=0.4+ep*0.3*(1-r/RINGS*0.5);
+    webX.stroke();
+  }
+
+  if(prog>0.9){
+    const dot=ease((prog-0.9)/0.1);
+    webX.beginPath();
+    webX.arc(CX,CY,2,0,Math.PI*2);
+    webX.fillStyle=`rgba(0,0,0,${dot*0.5})`;
+    webX.fill();
+  }
+
+  for(const pr of pulseRings){
+    const t=ease3(pr.t);
+    webX.beginPath();
+    webX.arc(CX,CY,pr.maxR*t,0,Math.PI*2);
+    webX.strokeStyle=`rgba(0,0,0,${(1-t)*0.12})`;
+    webX.lineWidth=1;
+    webX.stroke();
+  }
+}
+
+function spawnParticles(n,burst){
+  const maxR=Math.hypot(CX,CY)*1.18;
+  for(let i=0;i<n;i++){
+    const spoke=Math.floor(Math.random()*16);
+    const angle=(spoke/16)*Math.PI*2+((Math.random()-0.5)*0.18);
+    const d=burst?20+Math.random()*maxR*0.9:50+Math.random()*(maxR*0.85-50);
+    const speed=burst?0.8+Math.random()*1.2:0.15+Math.random()*0.3;
+    particles.push({
+      x:CX+Math.cos(angle)*d,
+      y:CY+Math.sin(angle)*d,
+      vx:Math.cos(angle)*speed*(burst?1:0.3)+(Math.random()-0.5)*0.2,
+      vy:Math.sin(angle)*speed*(burst?1:0.3)+(Math.random()-0.5)*0.2,
+      life:1,
+      decay:burst?0.018+Math.random()*0.022:0.006+Math.random()*0.009,
+      size:Math.random()*(burst?2:1.4)+0.3,
+      bright:burst?0.5+Math.random()*0.5:0.2+Math.random()*0.4
+    });
+  }
+}
+
+function tickParticles(){
+  prtX.clearRect(0,0,W,H);
+  particles=particles.filter(p=>p.life>0);
+  for(const p of particles){
+    p.x+=p.vx; p.y+=p.vy; p.life-=p.decay;
+    const alpha=p.life*p.bright*0.45;
+    prtX.beginPath();
+    prtX.arc(p.x,p.y,p.size,0,Math.PI*2);
+    prtX.fillStyle=`rgba(0,0,0,${alpha})`;
+    prtX.fill();
+  }
+}
+
+function tickPulse(){
+  pulseRings=pulseRings.filter(pr=>pr.t<1);
+  for(const pr of pulseRings) pr.t=Math.min(1,pr.t+0.012);
+}
+
+let lastSpawn=0, lastPulse=0;
+
+function boot(){
+  resize();
+  particles=[]; pulseRings=[];
+  if(raf) cancelAnimationFrame(raf);
+  mask.classList.remove('open');
+  mask.style.background='#ffffff';
+  portfolio.classList.remove('in');
+  webX.clearRect(0,0,W,H);
+  prtX.clearRect(0,0,W,H);
+  lastSpawn=0; lastPulse=0;
+
+  const DURATION=6500;
+  const start=performance.now();
+
+  function tick(now){
+    const elapsed=now-start;
+    const raw=Math.min(elapsed/DURATION,1);
+    const prog=ease(raw);
+
+    tickPulse();
+    drawWeb(prog);
+    tickParticles();
+
+    if(now-lastSpawn>170){ spawnParticles(2,false); lastSpawn=now; }
+
+    if(raw>0.6 && now-lastPulse>1200){
+      pulseRings.push({t:0, maxR:Math.hypot(CX,CY)*0.55});
+      lastPulse=now;
+    }
+
+    if(raw<1){ raf=requestAnimationFrame(tick); }
+    else{ setTimeout(doReveal,500); }
+  }
+  raf=requestAnimationFrame(tick);
+}
+
+function doReveal(){
+  spawnParticles(70, true);
+
+  function extra(now){
+    tickParticles();
+    drawWeb(1);
+    if(particles.length>0) requestAnimationFrame(extra);
+  }
+  requestAnimationFrame(extra);
+
+  setTimeout(()=>{
+    mask.style.background='#fafafa';
+    setTimeout(()=>mask.classList.add('open'),80);
+    setTimeout(()=>portfolio.classList.add('in'),1000);
+  },300);
+}
+
+setTimeout(boot,200);
+</script>
