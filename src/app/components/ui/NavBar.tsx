@@ -13,26 +13,26 @@ function ThemeToggle({ className }: { className?: string }) {
 
   useEffect(() => setMounted(true), []);
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-  const transitionDuration = isMobile ? 500 : 800;
-
   const switchTheme = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (busy.current || !mounted) return;
 
     const nextTheme = theme === "light" ? "dark" : "light";
-    const x = e.clientX;
-    const y = e.clientY;
 
     if (!document.startViewTransition) {
       setTheme(nextTheme);
       return;
     }
 
+    const x = e.clientX;
+    const y = e.clientY;
+
     busy.current = true;
 
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
+      Math.max(x, vw - x),
+      Math.max(y, vh - y)
     );
 
     const transition = document.startViewTransition(() => {
@@ -49,8 +49,8 @@ function ThemeToggle({ className }: { className?: string }) {
         ],
       },
       {
-        duration: transitionDuration,
-        easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+        duration: 700,
+        easing: "cubic-bezier(.32,.08,.24,1)",
         pseudoElement: "::view-transition-new(root)",
       }
     );

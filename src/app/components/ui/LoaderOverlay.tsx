@@ -390,33 +390,33 @@ export default function LoaderOverlay() {
       {/* Corner brackets */}
       {phase === "web" && (
         <div className="absolute inset-0 pointer-events-none z-10" style={{ opacity: hudVisible ? 1 : 0, transition: "opacity 0.8s ease 0.2s" }}>
-          <svg className="absolute top-5 left-5 w-10 h-10" viewBox="0 0 40 40"><path d="M0 12 L0 0 L12 0" fill="none" stroke={isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)"} strokeWidth="1" /></svg>
-          <svg className="absolute top-5 right-5 w-10 h-10" viewBox="0 0 40 40"><path d="M28 0 L40 0 L40 12" fill="none" stroke={isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)"} strokeWidth="1" /></svg>
-          <svg className="absolute bottom-5 left-5 w-10 h-10" viewBox="0 0 40 40"><path d="M0 28 L0 40 L12 40" fill="none" stroke={isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)"} strokeWidth="1" /></svg>
-          <svg className="absolute bottom-5 right-5 w-10 h-10" viewBox="0 0 40 40"><path d="M28 40 L40 40 L40 28" fill="none" stroke={isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)"} strokeWidth="1" /></svg>
+          <svg className="absolute top-3 left-3 sm:top-5 sm:left-5 w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 40 40"><path d="M0 12 L0 0 L12 0" fill="none" stroke={isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)"} strokeWidth="1" /></svg>
+          <svg className="absolute top-3 right-3 sm:top-5 sm:right-5 w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 40 40"><path d="M28 0 L40 0 L40 12" fill="none" stroke={isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)"} strokeWidth="1" /></svg>
+          <svg className="absolute bottom-3 left-3 sm:bottom-5 sm:left-5 w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 40 40"><path d="M0 28 L0 40 L12 40" fill="none" stroke={isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)"} strokeWidth="1" /></svg>
+          <svg className="absolute bottom-3 right-3 sm:bottom-5 sm:right-5 w-8 h-8 sm:w-10 sm:h-10" viewBox="0 0 40 40"><path d="M28 40 L40 40 L40 28" fill="none" stroke={isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.25)"} strokeWidth="1" /></svg>
         </div>
       )}
 
       {/* HUD panels */}
       {phase === "web" && (
         <div className="absolute inset-0 pointer-events-none z-10" style={{ opacity: hudVisible ? 1 : 0, transition: "opacity 0.8s ease 0.4s" }}>
-          <div className={`absolute top-8 left-8 font-mono text-[10px] leading-5 select-none ${isDark ? "text-white/40" : "text-black/40"}`}>
-            <div className={`tracking-[3px] uppercase mb-0.5 ${isDark ? "text-white/25" : "text-black/25"}`}>Thread Density</div>
+          <div className={`absolute top-4 left-4 sm:top-8 sm:left-8 font-mono text-[8px] sm:text-[10px] leading-4 sm:leading-5 select-none ${isDark ? "text-white/40" : "text-black/40"}`}>
+            <div className={`tracking-[2px] sm:tracking-[3px] uppercase mb-0.5 ${isDark ? "text-white/25" : "text-black/25"}`}>Thread Density</div>
             <div className={`tabular-nums ${isDark ? "text-white/50" : "text-black/50"}`}>{hud.threads} / 192</div>
           </div>
-          <div className={`absolute top-8 right-8 font-mono text-[10px] leading-5 text-right select-none ${isDark ? "text-white/40" : "text-black/40"}`}>
-            <div className={`tracking-[3px] uppercase mb-0.5 ${isDark ? "text-white/25" : "text-black/25"}`}>Web Integrity</div>
+          <div className={`absolute top-4 right-4 sm:top-8 sm:right-8 font-mono text-[8px] sm:text-[10px] leading-4 sm:leading-5 text-right select-none ${isDark ? "text-white/40" : "text-black/40"}`}>
+            <div className={`tracking-[2px] sm:tracking-[3px] uppercase mb-0.5 ${isDark ? "text-white/25" : "text-black/25"}`}>Web Integrity</div>
             <div className={`tabular-nums ${isDark ? "text-white/50" : "text-black/50"}`}>{hud.integrity}%</div>
           </div>
-          <div className={`absolute bottom-8 left-8 font-mono text-[10px] leading-5 select-none ${isDark ? "text-white/40" : "text-black/40"}`}>
-            <div className={`tracking-[3px] uppercase mb-0.5 ${isDark ? "text-white/25" : "text-black/25"}`}>Signal ID</div>
+          <div className={`absolute bottom-4 left-4 sm:bottom-8 sm:left-8 font-mono text-[8px] sm:text-[10px] leading-4 sm:leading-5 select-none ${isDark ? "text-white/40" : "text-black/40"}`}>
+            <div className={`tracking-[2px] sm:tracking-[3px] uppercase mb-0.5 ${isDark ? "text-white/25" : "text-black/25"}`}>Signal ID</div>
             <div className={`tabular-nums ${isDark ? "text-white/50" : "text-black/50"}`}>
               {hud.signal}
               {hud.signal === "LOCKED" && <span className={`inline-block w-1.5 h-1.5 rounded-full ml-1.5 animate-pulse ${isDark ? "bg-white/40" : "bg-black/40"}`} />}
             </div>
           </div>
-          <div className={`absolute bottom-8 right-8 font-mono text-[10px] leading-5 text-right select-none ${isDark ? "text-white/40" : "text-black/40"}`}>
-            <div className={`tracking-[3px] uppercase mb-0.5 ${isDark ? "text-white/25" : "text-black/25"}`}>Sequence</div>
+          <div className={`absolute bottom-4 right-4 sm:bottom-8 sm:right-8 font-mono text-[8px] sm:text-[10px] leading-4 sm:leading-5 text-right select-none ${isDark ? "text-white/40" : "text-black/40"}`}>
+            <div className={`tracking-[2px] sm:tracking-[3px] uppercase mb-0.5 ${isDark ? "text-white/25" : "text-black/25"}`}>Sequence</div>
             <div className={`tabular-nums tracking-wider ${isDark ? "text-white/50" : "text-black/50"}`}>{hud.sequence}</div>
           </div>
         </div>
@@ -428,7 +428,7 @@ export default function LoaderOverlay() {
           className="absolute left-0 right-0 z-10 flex justify-center pointer-events-none select-none"
           style={{ top: "calc(50% + 52px)", opacity: hudVisible ? 1 : 0, transition: "opacity 0.6s ease 0.6s" }}
         >
-          <span className={`font-mono text-[11px] tracking-[6px] tabular-nums ${isDark ? "text-white/30" : "text-black/30"}`}>
+          <span className={`font-mono text-[9px] sm:text-[11px] tracking-[4px] sm:tracking-[6px] tabular-nums ${isDark ? "text-white/30" : "text-black/30"}`}>
             {String(pct).padStart(3, "\u2007")}%
           </span>
         </div>
@@ -439,7 +439,7 @@ export default function LoaderOverlay() {
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center select-none">
           {/* Eyebrow */}
           <div
-            className={`text-[10px] tracking-[6px] uppercase mb-6 ${isDark ? "text-white/40" : "text-black/40"}`}
+            className={`text-[8px] sm:text-[10px] tracking-[3px] sm:tracking-[6px] uppercase mb-6 ${isDark ? "text-white/40" : "text-black/40"}`}
             style={{ opacity: 0, animation: "fadeIn 0.6s ease-out 0.2s forwards" }}
           >
             creative portfolio
@@ -447,7 +447,7 @@ export default function LoaderOverlay() {
 
           {/* Name */}
           <div
-            className={`text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-[6px] leading-none ${isDark ? "text-white" : "text-black"}`}
+            className={`text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-[3px] sm:tracking-[6px] leading-none ${isDark ? "text-white" : "text-black"}`}
             style={{ opacity: 0, animation: "fadeIn 0.6s ease-out 0.45s forwards" }}
           >
             kdraken_
@@ -455,13 +455,13 @@ export default function LoaderOverlay() {
 
           {/* Divider */}
           <div
-            className={`w-10 h-[1.5px] my-7 ${isDark ? "bg-white" : "bg-black"}`}
+            className={`w-8 sm:w-10 h-[1.5px] my-5 sm:my-7 ${isDark ? "bg-white" : "bg-black"}`}
             style={{ opacity: 0, animation: "fadeIn 0.6s ease-out 0.7s forwards" }}
           />
 
           {/* Tagline */}
           <div
-            className={`text-[11px] tracking-[5px] uppercase ${isDark ? "text-white/55" : "text-black/55"}`}
+            className={`text-[8px] sm:text-[11px] tracking-[2px] sm:tracking-[5px] uppercase text-center px-4 ${isDark ? "text-white/55" : "text-black/55"}`}
             style={{ opacity: 0, animation: "fadeIn 0.6s ease-out 0.95s forwards" }}
           >
             full-stack developer &nbsp;&middot;&nbsp; laguna, philippines
@@ -469,10 +469,10 @@ export default function LoaderOverlay() {
 
           {/* Enter prompt */}
           <div
-            className="mt-14 flex flex-col items-center gap-2"
+            className="mt-10 sm:mt-14 flex flex-col items-center gap-2"
             style={{ opacity: 0, animation: "fadeIn 0.6s ease-out 1.6s forwards, pulse 2s ease-in-out 2.2s infinite" }}
           >
-            <span className={`text-[10px] tracking-[4px] uppercase font-mono ${isDark ? "text-white/35" : "text-black/35"}`}>
+            <span className={`text-[8px] sm:text-[10px] tracking-[3px] sm:tracking-[4px] uppercase font-mono ${isDark ? "text-white/35" : "text-black/35"}`}>
               Click or press Enter
             </span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={isDark ? "text-white/30" : "text-black/30"}>
