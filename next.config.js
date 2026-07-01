@@ -37,12 +37,14 @@ const securityHeaders = [
       script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ""}
         https://www.googletagmanager.com
         https://www.google-analytics.com
-        https://va.vercel-scripts.com;
+        https://va.vercel-scripts.com
+        https://cdnjs.buymeacoffee.com;
+
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' data: https:;
       font-src 'self' https://fonts.gstatic.com;
       connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://www.google-analytics.com;
-      frame-src https://pages.codeadam.ca;
+      frame-src https://pages.codeadam.ca https://buymeacoffee.com;
     `.replace(/\s{2,}/g, " ").trim(),
   },
 ];

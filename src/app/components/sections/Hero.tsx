@@ -1,44 +1,9 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import WebCorners from "../ui/WebCorners";
-
-function RippleButton({ children, className, href }: { children: React.ReactNode; className: string; href?: string }) {
-  const [ripples, setRipples] = useState<{ id: number; x: number; y: number; size: number }[]>([]);
-  const btnRef = useRef<HTMLAnchorElement>(null);
-
-  const addRipple = useCallback((e: React.MouseEvent) => {
-    if (!btnRef.current) return;
-    const rect = btnRef.current.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const id = Date.now();
-    setRipples((prev) => [...prev, { id, x: e.clientX - rect.left - size / 2, y: e.clientY - rect.top - size / 2, size }]);
-    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 650);
-  }, []);
-
-  const Tag = href ? "a" : "button";
-
-  return (
-    <Tag
-      ref={btnRef as never}
-      href={href}
-      onClick={addRipple}
-      className={`kinetics-ripple ${className}`}
-      style={{ position: "relative", overflow: "hidden" }}
-    >
-      {children}
-      {ripples.map((r) => (
-        <span
-          key={r.id}
-          className="ripple-effect"
-          style={{ width: r.size, height: r.size, left: r.x, top: r.y }}
-        />
-      ))}
-    </Tag>
-  );
-}
+import { socialLinks } from "@/lib/data";
 
 export default function Hero() {
   return (
@@ -107,19 +72,60 @@ export default function Hero() {
             transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.48 }}
             className="flex flex-col gap-3 mt-8 sm:flex-row"
           >
-            <RippleButton
+            <a
               href="#projects"
               className="btn-hover inline-flex items-center justify-center px-6 py-3 bg-accent text-background text-sm font-medium rounded-xl hover:opacity-90 transition-opacity min-h-[44px]"
             >
               View my work
-            </RippleButton>
-            <RippleButton
+            </a>
+            <a
               href="#contact"
               className="btn-hover inline-flex items-center justify-center px-6 py-3 border border-border text-text-1 text-sm font-medium rounded-xl hover:border-text-2 transition-colors min-h-[44px]"
             >
               Get in touch
-            </RippleButton>
+            </a>
           </motion.div>
+
+          <div className="flex items-center gap-4 mt-6 text-sm text-text-2">
+            <a
+              href={socialLinks.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 hover:text-text-1 transition-colors"
+            >
+              github <ArrowUpRight size={14} />
+            </a>
+            <a
+              href={socialLinks.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 hover:text-text-1 transition-colors"
+            >
+              linkedin <ArrowUpRight size={14} />
+            </a>
+            <a
+              href={socialLinks.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 hover:text-text-1 transition-colors"
+            >
+              facebook <ArrowUpRight size={14} />
+            </a>
+            <a
+              href={socialLinks.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 hover:text-text-1 transition-colors"
+            >
+              Instagram <ArrowUpRight size={14} />
+            </a>
+            <a
+              href={`mailto:${socialLinks.email}`}
+              className="inline-flex items-center gap-1.5 hover:text-text-1 transition-colors"
+            >
+              email
+            </a>
+          </div>
 
         </div>
 

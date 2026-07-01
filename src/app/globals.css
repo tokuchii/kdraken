@@ -39,6 +39,30 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Coordinated color crossfade during theme switch (fallback for no View Transitions) */
+html.theme-anim,
+html.theme-anim *,
+html.theme-anim *::before,
+html.theme-anim *::after {
+  transition: background-color 0.5s ease,
+              border-color 0.5s ease,
+              color 0.5s ease,
+              fill 0.5s ease,
+              stroke 0.5s ease,
+              box-shadow 0.5s ease,
+              outline-color 0.5s ease !important;
+}
+
+/* Respect user motion preferences during theme switches */
+@media (prefers-reduced-motion: reduce) {
+  html.theme-anim,
+  html.theme-anim *,
+  html.theme-anim *::before,
+  html.theme-anim *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -235,12 +259,6 @@ body {
   animation: spider-tingle 0.6s ease-out;
 }
 
-/* Theme toggle pulse */
-@keyframes theme-pulse {
-  0% { transform: scale(0.8); opacity: 0.6; }
-  100% { transform: scale(2.2); opacity: 0; }
-}
-
 /* View transition clip */
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -297,24 +315,6 @@ body {
 .kinetics-push:active {
   transform: translateY(4px);
   transition: transform 0.06s ease;
-}
-
-/* Ripple feedback — radial fade-out from click point (Kinetics: decay) */
-.kinetics-ripple {
-  position: relative;
-  overflow: hidden;
-}
-.kinetics-ripple .ripple-effect {
-  position: absolute;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.25;
-  transform: scale(0);
-  animation: ripple-out 0.6s ease-out forwards;
-  pointer-events: none;
-}
-@keyframes ripple-out {
-  to { transform: scale(3); opacity: 0; }
 }
 
 /* Spring card hover — overshoots then settles (Kinetics: spring 320,24) */

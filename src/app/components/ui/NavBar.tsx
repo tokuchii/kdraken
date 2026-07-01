@@ -13,27 +13,29 @@ function ThemeToggle({ className }: { className?: string }) {
 
   useEffect(() => setMounted(true), []);
 
-  const cycleTheme = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (busy.current) return;
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const transitionDuration = isMobile ? 300 : 500;
+
+  const switchTheme = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (busy.current || !mounted) return;
 
     const nextTheme = theme === "light" ? "dark" : "light";
     const x = e.clientX;
     const y = e.clientY;
 
-    const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
-    );
-
-    const clipStart = `circle(0px at ${x}px ${y}px)`;
-    const clipEnd = `circle(${endRadius}px at ${x}px ${y}px)`;
-
     if (!document.startViewTransition) {
+      document.documentElement.classList.add("theme-anim");
       setTheme(nextTheme);
+      setTimeout(() => document.documentElement.classList.remove("theme-anim"), 520);
       return;
     }
 
     busy.current = true;
+
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
 
     const transition = document.startViewTransition(() => {
       setTheme(nextTheme);
@@ -42,10 +44,15 @@ function ThemeToggle({ className }: { className?: string }) {
     await transition.ready;
 
     document.documentElement.animate(
-      { clipPath: [clipStart, clipEnd] },
       {
-        duration: 500,
-        easing: "ease-in-out",
+        clipPath: [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`,
+        ],
+      },
+      {
+        duration: transitionDuration,
+        easing: "cubic-bezier(.32,.08,.24,1)",
         pseudoElement: "::view-transition-new(root)",
       }
     );
@@ -62,7 +69,7 @@ function ThemeToggle({ className }: { className?: string }) {
 
   return (
     <button
-      onClick={cycleTheme}
+      onClick={switchTheme}
       className={`kinetics-social p-2 text-text-2 hover:text-text-1 transition-transform ${className || ""}`}
       aria-label="Toggle theme"
     >

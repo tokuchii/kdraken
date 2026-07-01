@@ -120,6 +120,7 @@ export const socialLinks = {
   github: "https://github.com/tokuchii",
   linkedin: "https://www.linkedin.com/in/kenneth-kieser-macabos-026867367/",
   facebook: "https://www.facebook.com/kenneth.kieser.macabos/",
+  instagram: "https://www.instagram.com/kdrakenn_/",
   email: "keisermacabos@gmail.com",
   phone: "+63 936 168 7804",
   website: "https://kdraken.vercel.app",
