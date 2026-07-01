@@ -39,6 +39,16 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Text selection highlight */
+::selection {
+  background-color: #000;
+  color: #fff;
+}
+.dark ::selection {
+  background-color: #fff;
+  color: #000;
+}
+
 /* Coordinated color crossfade during theme switch (fallback for no View Transitions) */
 html.theme-anim,
 html.theme-anim *,

@@ -148,11 +148,12 @@ export default function Contributions() {
                         return (
                           <button
                             key={day.date}
-                            className="rounded-[2px] outline-none border border-black/5 dark:border-white/5 hover:ring-1 hover:ring-text-2/40 transition-all duration-150"
+                            className="rounded-[3px] outline-none focus-visible:ring-0 focus-visible:outline-none transition-all duration-150"
                             style={{
                               width: CELL,
                               height: CELL,
                               backgroundColor: getLevelColor(day.level, isDark),
+                              outline: 'none',
                             }}
                             onMouseEnter={(e) =>
                               setTooltip({ day, x: e.clientX, y: e.clientY })
@@ -178,7 +179,7 @@ export default function Contributions() {
                 {[0, 1, 2, 3, 4].map((level) => (
                   <span
                     key={level}
-                    className="rounded-[2px] border border-black/5 dark:border-white/5"
+                    className="rounded-[3px]"
                     style={{
                       width: CELL,
                       height: CELL,
