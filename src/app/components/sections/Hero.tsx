@@ -86,7 +86,7 @@ export default function Hero() {
             </a>
           </motion.div>
 
-          <div className="flex items-center gap-4 mt-6 text-sm text-text-2">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-6 text-text-2" style={{ fontSize: "clamp(0.8125rem, 1.2vw, 0.9375rem)" }}>
             <a
               href={socialLinks.github}
               target="_blank"
@@ -102,14 +102,6 @@ export default function Hero() {
               className="inline-flex items-center gap-1.5 hover:text-text-1 transition-colors"
             >
               linkedin <ArrowUpRight size={14} />
-            </a>
-            <a
-              href={socialLinks.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 hover:text-text-1 transition-colors"
-            >
-              facebook <ArrowUpRight size={14} />
             </a>
             <a
               href={socialLinks.instagram}

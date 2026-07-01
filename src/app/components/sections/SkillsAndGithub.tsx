@@ -93,7 +93,7 @@ export default function SkillsAndGithub() {
                 <h3 className="font-mono text-[11px] uppercase tracking-widest text-text-2 mb-2">
                   {group.category}
                 </h3>
-                <p className="text-text-1 text-sm leading-relaxed">
+                <p className="text-text-1 leading-relaxed" style={{ fontSize: "clamp(0.8125rem, 1.2vw, 0.9375rem)" }}>
                   {group.items.join(" · ")}
                 </p>
               </div>
@@ -199,8 +199,8 @@ export default function SkillsAndGithub() {
             </FadeIn>
 
             <FadeIn delay={0.5}>
-              <p className="text-sm text-text-2" style={{ fontFamily: "monospace" }}>
-                <span className="text-text-1 font-medium">{contribData.totalContributions.toLocaleString()}</span>{" "}
+              <p className="text-text-2 tracking-wider uppercase" style={{ fontFamily: "monospace", fontSize: "clamp(0.6875rem, 1vw, 0.75rem)" }}>
+                <span className="text-text-2 font-xs">{contribData.totalContributions.toLocaleString()}</span>{" "}
                 contributions this year
               </p>
             </FadeIn>

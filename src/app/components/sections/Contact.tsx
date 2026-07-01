@@ -218,18 +218,19 @@ export default function Contact() {
             href="https://buymeacoffee.com/kendrake"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 text-text-2 text-xs mb-8 hover:text-text-1 transition-colors"
+            className="flex items-center justify-center gap-1.5 text-text-2 mb-8 hover:text-text-1 transition-colors"
+            style={{ fontSize: "clamp(0.75rem, 1.2vw, 0.875rem)" }}
           >
             buy me a coffee? <ArrowUpRight size={14} />
           </a>
         </FadeIn>
 
         <FadeIn delay={0.2}>
-          <p className="font-mono text-xs text-text-2 mt-8">
+          <p className="font-mono text-text-2 mt-8" style={{ fontSize: "clamp(0.6875rem, 1vw, 0.75rem)" }}>
             © 2025 Kenneth Kieser Macabos · Built with Next.js
           </p>
 
-          <p className="font-mono text-xs text-text-2/60 mt-2 italic">
+          <p className="font-mono text-text-2/60 mt-2 italic" style={{ fontSize: "clamp(0.6875rem, 1vw, 0.75rem)" }}>
   &ldquo;With great power comes great responsibility.&rdquo;
 </p>
         </FadeIn>

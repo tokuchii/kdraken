@@ -16,10 +16,10 @@ export default function Experience() {
               <div className="relative">
                 <div className="absolute -left-[calc(1.5rem+4px)] lg:-left-[calc(2rem+4px)] top-1 w-2 h-2 rounded-full bg-accent" />
 
-                <h3 className="font-extrabold text-base text-text-1 tracking-tight">
+                <h3 className="font-extrabold text-text-1 tracking-tight" style={{ fontSize: "clamp(0.9375rem, 1.5vw, 1.125rem)" }}>
                   {job.role}
                 </h3>
-                <p className="text-sm text-text-2">
+                <p className="text-text-2" style={{ fontSize: "clamp(0.8125rem, 1.2vw, 0.9375rem)" }}>
                   {job.company}
                   {job.location && (
                     <span className="text-text-2"> → {job.location}</span>
@@ -28,7 +28,7 @@ export default function Experience() {
 
                 <ul className="mt-3 space-y-1.5">
                   {job.bullets.map((bullet, j) => (
-                    <li key={j} className="text-sm text-text-2 leading-relaxed">
+                    <li key={j} className="text-text-2 leading-relaxed" style={{ fontSize: "clamp(0.8125rem, 1.2vw, 0.9375rem)" }}>
                       · {bullet}
                     </li>
                   ))}

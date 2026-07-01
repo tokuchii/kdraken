@@ -44,13 +44,13 @@ html.theme-anim,
 html.theme-anim *,
 html.theme-anim *::before,
 html.theme-anim *::after {
-  transition: background-color 0.5s ease,
-              border-color 0.5s ease,
-              color 0.5s ease,
-              fill 0.5s ease,
-              stroke 0.5s ease,
-              box-shadow 0.5s ease,
-              outline-color 0.5s ease !important;
+  transition: background-color 2s ease,
+              border-color 2s ease,
+              color 2s ease,
+              fill 2s ease,
+              stroke 2s ease,
+              box-shadow 2s ease,
+              outline-color 2s ease !important;
 }
 
 /* Respect user motion preferences during theme switches */
@@ -177,8 +177,6 @@ html.theme-anim *::after {
   border-radius: inherit;
   opacity: 0;
   transition: opacity 0.3s ease;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), color-mix(in srgb, var(--color-decorative) 8%, transparent) 0%, transparent 70%);
-  pointer-events: none;
 }
 .spider-sense:hover::after {
   opacity: 1;

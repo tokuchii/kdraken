@@ -89,8 +89,8 @@ export default function Contributions() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <p className="text-sm text-text-2 mb-4 font-mono">
-            <span className="text-text-1 font-medium">{data.totalContributions.toLocaleString()}</span>{" "}
+          <p className="text-text-2 mb-4 font-mono tracking-wider uppercase" style={{ fontSize: "clamp(0.8125rem, 1.2vw, 0.9375rem)" }}>
+            <span className="text-text-2 font-medium">{data.totalContributions.toLocaleString()}</span>{" "}
             contributions in the last year
           </p>
         </FadeIn>

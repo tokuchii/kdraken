@@ -58,7 +58,7 @@ export default function Projects() {
                 <div className="group flex items-center justify-between p-4 border border-border rounded-xl bg-background hover:border-text-2 transition-all">
                   <div className="flex-1 min-w-0 mr-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-medium text-sm text-text-1 truncate">
+                      <h3 className="font-medium text-text-1 truncate" style={{ fontSize: "clamp(0.8125rem, 1.2vw, 0.9375rem)" }}>
                         {project.title}
                       </h3>
                       {project.featured && (
@@ -67,7 +67,7 @@ export default function Projects() {
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-text-2 line-clamp-1 mb-2">
+                    <p className="text-text-2 line-clamp-1 mb-2" style={{ fontSize: "clamp(0.6875rem, 1vw, 0.8125rem)" }}>
                       {project.description}
                     </p>
                     <div className="flex flex-wrap gap-1">

@@ -53,7 +53,7 @@ export default function About() {
           <FadeIn>
             <div className="space-y-4">
               {aboutContent.paragraphs.map((paragraph, i) => (
-                <p key={i} className="text-text-2 leading-relaxed">
+                <p key={i} className="text-text-2 leading-relaxed" style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.0625rem)" }}>
                   {paragraph}
                 </p>
               ))}
