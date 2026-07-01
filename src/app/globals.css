@@ -3,7 +3,7 @@
 @variant dark (&:is(.dark *));
 
 @theme {
-  --color-background: #FAFAFA;
+  --color-background: #F4F4F5;
   --color-surface: #F4F4F5;
   --color-text-1: #18181B;
   --color-text-2: #71717A;
@@ -18,7 +18,7 @@
 }
 
 .dark {
-  --color-background: #09090B;
+  --color-background: #18181B;
   --color-surface: #18181B;
   --color-text-1: #FAFAFA;
   --color-text-2: #A1A1AA;
@@ -36,7 +36,6 @@ body {
   background: var(--color-background);
   color: var(--color-text-1);
   font-family: var(--font-sans);
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Text selection highlight */
@@ -49,29 +48,7 @@ body {
   color: #000;
 }
 
-/* Coordinated color crossfade during theme switch (fallback for no View Transitions) */
-html.theme-anim,
-html.theme-anim *,
-html.theme-anim *::before,
-html.theme-anim *::after {
-  transition: background-color 2s ease,
-              border-color 2s ease,
-              color 2s ease,
-              fill 2s ease,
-              stroke 2s ease,
-              box-shadow 2s ease,
-              outline-color 2s ease !important;
-}
 
-/* Respect user motion preferences during theme switches */
-@media (prefers-reduced-motion: reduce) {
-  html.theme-anim,
-  html.theme-anim *,
-  html.theme-anim *::before,
-  html.theme-anim *::after {
-    transition-duration: 0.01ms !important;
-  }
-}
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -267,11 +244,13 @@ html.theme-anim *::after {
   animation: spider-tingle 0.6s ease-out;
 }
 
-/* View transition clip */
-::view-transition-old(root),
+/* View transition — no fade, solid swap */
+::view-transition-old(root) {
+  animation: none;
+}
 ::view-transition-new(root) {
   animation: none;
-  mix-blend-mode: normal;
+  opacity: 1;
 }
 
 /* Web-line hover effect on links */

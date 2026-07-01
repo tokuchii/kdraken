@@ -12,7 +12,7 @@ export default function Hero() {
         id="hero"
         className="relative min-h-screen flex flex-col justify-center max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0"
       >
-        <div className="relative">
+    <div className="relative">
           <WebCorners />
           <motion.p
             initial={{ opacity: 0, y: 16 }}

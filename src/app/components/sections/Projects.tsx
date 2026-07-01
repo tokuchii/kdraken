@@ -23,7 +23,7 @@ export default function Projects() {
   const displayed = showAll ? projects : projects.slice(0, 5);
 
   return (
-    <section id="projects" className="py-10 sm:py-14 xl:py-16 bg-surface web-pattern">
+    <section id="projects" className="py-10 sm:py-14 xl:py-16">
       <div className="max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0">
         <FadeIn>
           <div className="flex items-center justify-between mb-8">

@@ -14,7 +14,7 @@ function ThemeToggle({ className }: { className?: string }) {
   useEffect(() => setMounted(true), []);
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-  const transitionDuration = isMobile ? 300 : 500;
+  const transitionDuration = isMobile ? 500 : 800;
 
   const switchTheme = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (busy.current || !mounted) return;
@@ -24,9 +24,7 @@ function ThemeToggle({ className }: { className?: string }) {
     const y = e.clientY;
 
     if (!document.startViewTransition) {
-      document.documentElement.classList.add("theme-anim");
       setTheme(nextTheme);
-      setTimeout(() => document.documentElement.classList.remove("theme-anim"), 520);
       return;
     }
 
@@ -52,7 +50,7 @@ function ThemeToggle({ className }: { className?: string }) {
       },
       {
         duration: transitionDuration,
-        easing: "cubic-bezier(.32,.08,.24,1)",
+        easing: "cubic-bezier(0.4, 0, 0.2, 1)",
         pseudoElement: "::view-transition-new(root)",
       }
     );
@@ -121,7 +119,7 @@ export default function NavBar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm bg-background/80 border-b border-border">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-border">
         <div className="max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0 h-16 flex items-center justify-between">
           <a href="#hero" className="font-mono text-sm font-medium text-text-1">
             kdraken_
