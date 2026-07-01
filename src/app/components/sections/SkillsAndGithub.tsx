@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import { skillGroups } from "@/lib/data";
 import SectionHeading from "../ui/SectionHeading";
@@ -8,7 +8,7 @@ import FadeIn from "../ui/FadeIn";
 import { ContributionData, ContributionDay } from "@/lib/types";
 import { transformContributions, generateFallbackData } from "@/lib/github";
 
-const CELL = 11;
+const CELL_MAX = 11;
 const GAP = 2;
 
 function parseUTC(dateStr: string): Date {
@@ -35,11 +35,28 @@ function Tooltip({ day, x, y }: { day: ContributionDay; x: number; y: number }) 
   );
 }
 
+function useFitCell(weekCount: number, containerRef: React.RefObject<HTMLDivElement | null>) {
+  const [cell, setCell] = useState(CELL_MAX);
+  useEffect(() => {
+    if (!weekCount) return;
+    const calc = () => {
+      const w = containerRef.current?.offsetWidth ?? window.innerWidth - 32;
+      const c = Math.floor((w - (weekCount - 1) * GAP) / weekCount);
+      setCell(Math.min(Math.max(c, 4), CELL_MAX));
+    };
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
+  }, [weekCount, containerRef]);
+  return cell;
+}
+
 export default function SkillsAndGithub() {
   const [contribData, setContribData] = useState<ContributionData | null>(null);
   const [tooltip, setTooltip] = useState<{ day: ContributionDay; x: number; y: number } | null>(null);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("/api/contributions")
@@ -54,7 +71,8 @@ export default function SkillsAndGithub() {
       .catch(() => setContribData(generateFallbackData()));
   }, []);
 
-  const gridWidth = contribData ? contribData.weeks.length * (CELL + GAP) : 0;
+  const CELL = useFitCell(contribData?.weeks.length ?? 0, containerRef);
+  const gridWidth = contribData ? contribData.weeks.length * CELL + (contribData.weeks.length - 1) * GAP : 0;
 
   return (
     <section id="skills" className="relative py-10 sm:py-14 xl:py-16 overflow-hidden">
@@ -100,7 +118,7 @@ export default function SkillsAndGithub() {
                   className="font-mono text-[12px] text-text-2 hover:text-text-1 transition-colors"
                   style={{ fontFamily: "monospace" }}
                 >
-                  @tokuchii ↗
+                  @TOKUCHII ↗
                 </a>
               </div>
             </FadeIn>
@@ -112,71 +130,69 @@ export default function SkillsAndGithub() {
                 rel="noopener noreferrer"
                 className="block"
               >
-                <div className="overflow-x-auto no-scrollbar mb-3">
+                <div ref={containerRef} className="mb-3">
                   <div
-                    className="inline-flex"
-                    style={{ width: gridWidth }}
+                    className="flex"
+                    style={{ gap: GAP, width: gridWidth }}
                   >
-                    <div className="flex" style={{ gap: GAP }}>
-                      {contribData.weeks.map((week, wi) => (
-                        <div key={wi} className="flex flex-col items-center" style={{ gap: GAP }}>
-                          {Array.from({ length: 7 }, (_, dayIndex) => {
-                            const day = week.days.find((d) => {
-                              return parseUTC(d.date).getUTCDay() === dayIndex;
-                            });
+                    {contribData.weeks.map((week, wi) => (
+                      <div key={wi} className="flex flex-col items-center" style={{ gap: GAP }}>
+                        {Array.from({ length: 7 }, (_, dayIndex) => {
+                          const day = week.days.find((d) => {
+                            return parseUTC(d.date).getUTCDay() === dayIndex;
+                          });
 
-                            if (!day) {
-                              return (
-                                <span
-                                  key={`${wi}-${dayIndex}`}
-                                  style={{ width: CELL, height: CELL }}
-                                />
-                              );
-                            }
-
-                            const hasContrib = day.count > 0;
-                            const dotSize = hasContrib ? Math.min(Math.round(3 + day.count * 1.5), CELL) : 3;
-
+                          if (!day) {
                             return (
-                              <button
-                                key={day.date}
-                                className="rounded-full outline-none hover:ring-2 hover:ring-black/20 dark:hover:ring-white/20 transition-all duration-200 hover:scale-125"
-                                style={{
-                                  width: CELL,
-                                  height: CELL,
-                                  display: "flex",
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                  padding: 0,
-                                }}
-                                onMouseEnter={(e) =>
-                                  setTooltip({ day, x: e.clientX, y: e.clientY })
-                                }
-                                onMouseMove={(e) =>
-                                  setTooltip((prev) =>
-                                    prev ? { ...prev, x: e.clientX, y: e.clientY } : prev
-                                  )
-                                }
-                                onMouseLeave={() => setTooltip(null)}
-                                aria-label={`${day.count} contributions on ${day.date}`}
-                              >
-                                <span
-                                  style={{
-                                    width: dotSize,
-                                    height: dotSize,
-                                    borderRadius: "50%",
-                                    backgroundColor: isDark ? "#fafafa" : "#18181b",
-                                    opacity: hasContrib ? 1 : 0.12,
-                                    display: "block",
-                                    flexShrink: 0,
-                                  }}
-                                />
-                              </button>
+                              <span
+                                key={`${wi}-${dayIndex}`}
+                                style={{ width: CELL, height: CELL }}
+                              />
                             );
-                          })}
-                        </div>
-                      ))}
-                    </div>
+                          }
+
+                          const hasContrib = day.count > 0;
+                          const dotSize = hasContrib ? Math.min(Math.round(3 + day.count * 1.5), CELL) : 3;
+
+                          return (
+                            <button
+                              key={day.date}
+                              className="rounded-full outline-none hover:ring-2 hover:ring-black/20 dark:hover:ring-white/20 transition-all duration-200 hover:scale-125"
+                              style={{
+                                width: CELL,
+                                height: CELL,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                padding: 0,
+                              }}
+                              onMouseEnter={(e) =>
+                                setTooltip({ day, x: e.clientX, y: e.clientY })
+                              }
+                              onMouseMove={(e) =>
+                                setTooltip((prev) =>
+                                  prev ? { ...prev, x: e.clientX, y: e.clientY } : prev
+                                )
+                              }
+                              onMouseLeave={() => setTooltip(null)}
+                              aria-label={`${day.count} contributions on ${day.date}`}
+                            >
+                              <span
+                                style={{
+                                  width: dotSize,
+                                  height: dotSize,
+                                  borderRadius: "50%",
+                                  backgroundColor: isDark ? "#fafafa" : "#18181b",
+                                  opacity: hasContrib ? 1 : 0.12,
+                                  display: "block",
+                                  flexShrink: 0,
+                                }}
+                              />
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </a>
