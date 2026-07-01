@@ -1,18 +1,81 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Menu, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { navLinks } from "@/lib/data";
 import MobileDrawer from "./MobileDrawer";
 
+function ThemeToggle({ className }: { className?: string }) {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const busy = useRef(false);
+
+  useEffect(() => setMounted(true), []);
+
+  const cycleTheme = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (busy.current) return;
+
+    const nextTheme = theme === "light" ? "dark" : "light";
+    const x = e.clientX;
+    const y = e.clientY;
+
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const clipStart = `circle(0px at ${x}px ${y}px)`;
+    const clipEnd = `circle(${endRadius}px at ${x}px ${y}px)`;
+
+    if (!document.startViewTransition) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    busy.current = true;
+
+    const transition = document.startViewTransition(() => {
+      setTheme(nextTheme);
+    });
+
+    await transition.ready;
+
+    document.documentElement.animate(
+      { clipPath: [clipStart, clipEnd] },
+      {
+        duration: 500,
+        easing: "ease-in-out",
+        pseudoElement: "::view-transition-new(root)",
+      }
+    );
+
+    transition.finished.then(() => {
+      busy.current = false;
+    });
+  };
+
+  const ThemeIcon = () => {
+    if (!mounted) return <Sun size={16} />;
+    return theme === "light" ? <Moon size={16} /> : <Sun size={16} />;
+  };
+
+  return (
+    <button
+      onClick={cycleTheme}
+      className={`kinetics-social p-2 text-text-2 hover:text-text-1 transition-transform ${className || ""}`}
+      aria-label="Toggle theme"
+    >
+      <ThemeIcon />
+    </button>
+  );
+}
+
 export default function NavBar() {
   const [activeSection, setActiveSection] = useState("hero");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
-
-  useEffect(() => setMounted(true), []);
+  const navRef = useRef<HTMLDivElement>(null);
+  const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,14 +95,22 @@ export default function NavBar() {
     return () => observer.disconnect();
   }, []);
 
-  const cycleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
+  const updatePill = useCallback(() => {
+    if (!navRef.current) return;
+    const activeLink = navRef.current.querySelector(`a[href="#${activeSection}"]`) as HTMLElement;
+    if (activeLink) {
+      setPillStyle({
+        left: activeLink.offsetLeft,
+        width: activeLink.offsetWidth,
+      });
+    }
+  }, [activeSection]);
 
-  const ThemeIcon = () => {
-    if (!mounted) return <Sun size={16} />;
-    return theme === "light" ? <Moon size={16} /> : <Sun size={16} />;
-  };
+  useEffect(() => {
+    updatePill();
+    window.addEventListener("resize", updatePill);
+    return () => window.removeEventListener("resize", updatePill);
+  }, [updatePill]);
 
   return (
     <>
@@ -50,43 +121,34 @@ export default function NavBar() {
           </a>
 
           <div className="hidden lg:flex items-center gap-6">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.href.replace("#", "");
-              return (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={`text-sm transition-colors duration-200 relative ${
-                    isActive ? "text-text-1" : "text-text-2 hover:text-text-1"
-                  }`}
-                >
-                  {link.label}
-                  {isActive && (
-                    <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-accent" />
-                  )}
-                </a>
-              );
-            })}
+            <div ref={navRef} className="relative flex items-center gap-6">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.replace("#", "");
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className={`text-sm transition-colors duration-200 relative ${
+                      isActive ? "text-text-1" : "text-text-2 hover:text-text-1"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
+              <span
+                className="kinetics-pill"
+                style={{ left: pillStyle.left, width: pillStyle.width }}
+              />
+            </div>
 
-            <button
-              onClick={cycleTheme}
-              className="p-2 text-text-2 hover:text-text-1 transition-colors"
-              aria-label="Toggle theme"
-            >
-              <ThemeIcon />
-            </button>
+            <ThemeToggle />
           </div>
 
           <div className="flex lg:hidden items-center gap-2">
+            <ThemeToggle />
             <button
-              onClick={cycleTheme}
-              className="p-2 text-text-2 hover:text-text-1 transition-colors"
-              aria-label="Toggle theme"
-            >
-              <ThemeIcon />
-            </button>
-            <button
-              className="p-2 -mr-2 text-text-2 hover:text-text-1 transition-colors"
+              className="kinetics-social p-2 -mr-2 text-text-2 hover:text-text-1 transition-colors"
               onClick={() => setIsDrawerOpen(true)}
               aria-label="Open menu"
             >

@@ -30,3 +30,19 @@ export interface NavLink {
   label: string;
   href: string;
 }
+
+export interface ContributionDay {
+  date: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
+}
+
+export interface ContributionWeek {
+  days: ContributionDay[];
+}
+
+export interface ContributionData {
+  totalContributions: number;
+  weeks: ContributionWeek[];
+  yearRange: string;
+}

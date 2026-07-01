@@ -1,10 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { aboutContent } from "@/lib/data";
 import SectionHeading from "../ui/SectionHeading";
 import FadeIn from "../ui/FadeIn";
+
+function AnimatedStat({ value, label, delay }: { value: string; label: string; delay: number }) {
+  const [bump, setBump] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setBump(true), delay);
+    const reset = setTimeout(() => setBump(false), delay + 400);
+    return () => { clearTimeout(timer); clearTimeout(reset); };
+  }, [delay, value]);
+
+  return (
+    <div>
+      <span className={`kinetics-bump ${bump ? "animate-bump" : ""} font-mono text-2xl text-text-1 font-extrabold`}>
+        {value}
+      </span>
+      <p className="font-mono text-[11px] text-text-2 mt-1">{label}</p>
+    </div>
+  );
+}
 
 export default function About() {
   const [stats, setStats] = useState(aboutContent.stats);
@@ -53,14 +72,7 @@ export default function About() {
           <FadeIn delay={0.1}>
             <div className="grid grid-cols-2 gap-6 lg:grid-cols-1">
               {stats.map((stat, i) => (
-                <div key={i}>
-                  <span className="font-mono text-2xl text-text-1 font-extrabold">
-                    {stat.value}
-                  </span>
-                  <p className="font-mono text-[11px] text-text-2 mt-1">
-                    {stat.label}
-                  </p>
-                </div>
+                <AnimatedStat key={i} value={stat.value} label={stat.label} delay={600 + i * 150} />
               ))}
             </div>
           </FadeIn>

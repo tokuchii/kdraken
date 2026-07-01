@@ -1,4 +1,4 @@
-import { Project } from "./types";
+import { Project, ContributionData, ContributionWeek, ContributionDay } from "./types";
 
 const GITHUB_USERNAME = "tokuchii";
 
@@ -276,4 +276,161 @@ function detectCategory(
   }
 
   return "frontend";
+}
+
+// --- Contribution Calendar (GitHub GraphQL API) ---
+
+const CONTRIBUTION_QUERY = `
+  query ($username: String!, $from: DateTime!, $to: DateTime!) {
+    user(login: $username) {
+      contributionsCollection(from: $from, to: $to) {
+        contributionCalendar {
+          totalContributions
+          weeks {
+            firstDay
+            contributionDays {
+              date
+              contributionCount
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+interface RawContributionResponse {
+  totalContributions: number;
+  weeks: {
+    firstDay: string;
+    contributionDays: {
+      date: string;
+      contributionCount: number;
+    }[];
+  }[];
+}
+
+function getLevel(count: number): 0 | 1 | 2 | 3 | 4 {
+  if (count === 0) return 0;
+  if (count <= 3) return 1;
+  if (count <= 6) return 2;
+  if (count <= 9) return 3;
+  return 4;
+}
+
+export function getLevelColor(level: 0 | 1 | 2 | 3 | 4, isDark: boolean): string {
+  if (isDark) {
+    const colors: Record<number, string> = {
+      0: "#161b22",
+      1: "#0e4429",
+      2: "#006d32",
+      3: "#26a641",
+      4: "#39d353",
+    };
+    return colors[level];
+  }
+  const colors: Record<number, string> = {
+    0: "#ebedf0",
+    1: "#9be9a8",
+    2: "#40c463",
+    3: "#30a14e",
+    4: "#216e39",
+  };
+  return colors[level];
+}
+
+export async function fetchContributions(year?: number): Promise<RawContributionResponse> {
+  const targetYear = year || new Date().getFullYear();
+  const from = new Date(Date.UTC(targetYear, 0, 1));
+  const to = new Date(Date.UTC(targetYear, 11, 31, 23, 59, 59, 999));
+
+  const res = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: CONTRIBUTION_QUERY,
+      variables: {
+        username: GITHUB_USERNAME,
+        from: from.toISOString(),
+        to: to.toISOString(),
+      },
+    }),
+  });
+
+  if (!res.ok) throw new Error(`GitHub GraphQL API error: ${res.status}`);
+  const json = await res.json();
+  if (json.errors) throw new Error(json.errors[0].message);
+
+  return json.data.user.contributionsCollection.contributionCalendar;
+}
+
+export function transformContributions(raw: RawContributionResponse): ContributionData {
+  const year = new Date().getFullYear();
+  const yearStart = `${year}-01-01`;
+  const yearEnd = `${year}-12-31`;
+
+  const weeks: ContributionWeek[] = raw.weeks
+    .map((week) => ({
+      days: week.contributionDays
+        .filter((day) => day.date >= yearStart && day.date <= yearEnd)
+        .map((day) => ({
+          date: day.date,
+          count: day.contributionCount,
+          level: getLevel(day.contributionCount),
+        })),
+    }))
+    .filter((week) => week.days.length > 0);
+
+  const firstDate = weeks[0]?.days[0]?.date ?? "";
+  const lastWeek = weeks[weeks.length - 1];
+  const lastDate = lastWeek?.days[lastWeek.days.length - 1]?.date ?? "";
+
+  const fmt = (d: string) =>
+    new Date(d + "T00:00:00").toLocaleString("en-US", { month: "short", year: "numeric" });
+
+  return {
+    totalContributions: raw.totalContributions,
+    weeks,
+    yearRange: `${fmt(firstDate)} — ${fmt(lastDate)}`,
+  };
+}
+
+export function generateFallbackData(): ContributionData {
+  const weeks: ContributionWeek[] = [];
+  const today = new Date();
+  const startDate = new Date(today.getFullYear(), 0, 1);
+  startDate.setDate(startDate.getDate() - startDate.getDay());
+
+  while (true) {
+    if (startDate > today) break;
+
+    const days: ContributionDay[] = [];
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + d);
+      if (date > today) break;
+      days.push({
+        date: date.toISOString().split("T")[0],
+        count: 0,
+        level: 0,
+      });
+    }
+    if (days.length > 0) weeks.push({ days });
+    startDate.setDate(startDate.getDate() + 7);
+  }
+
+  const firstDate = weeks[0]?.days[0]?.date ?? "";
+  const lastDate = weeks[weeks.length - 1]?.days[weeks[weeks.length - 1].days.length - 1]?.date ?? "";
+  const fmt = (d: string) =>
+    new Date(d + "T00:00:00").toLocaleString("en-US", { month: "short", year: "numeric" });
+
+  return {
+    totalContributions: 0,
+    weeks,
+    yearRange: `${fmt(firstDate)} — ${fmt(lastDate)}`,
+  };
 }

@@ -39,6 +39,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{ fontFamily: "monospace" }}
       >
         <ThemeProvider attribute="class" defaultTheme="system">
           <LoaderOverlay />

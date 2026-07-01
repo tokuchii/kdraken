@@ -36,7 +36,8 @@ const securityHeaders = [
       default-src 'self';
       script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ""}
         https://www.googletagmanager.com
-        https://www.google-analytics.com;
+        https://www.google-analytics.com
+        https://va.vercel-scripts.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' data: https:;
       font-src 'self' https://fonts.gstatic.com;

@@ -50,7 +50,7 @@ export default function ProjectsClient({ projects }: ProjectsClientProps) {
               onClick={() => { setActiveCategory(cat); setShowAll(false); }}
               className={`shrink-0 px-4 py-2 text-sm rounded-full border transition-colors duration-200 min-h-[44px] ${
                 activeCategory === cat
-                  ? "bg-accent text-white border-accent"
+                  ? "bg-accent text-background border-accent"
                   : "bg-transparent text-text-2 border-border hover:border-text-2"
               }`}
             >
