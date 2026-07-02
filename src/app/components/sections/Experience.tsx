@@ -1,38 +1,49 @@
 "use client";
 
+import { ArrowRightIcon } from "lucide-react";
 import { experience } from "@/lib/data";
-import SectionHeading from "../ui/SectionHeading";
 import FadeIn from "../ui/FadeIn";
+
+function extractYear(dates: string): string {
+  const match = dates.match(/(\d{4})/);
+  return match ? match[1] : dates;
+}
 
 export default function Experience() {
   return (
     <section id="experience" className="py-10 sm:py-14 xl:py-16">
       <div className="max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0">
-        <SectionHeading eyebrow="Where I've worked" title="Experience" />
+        <FadeIn>
+          <div className="flex items-baseline justify-between mb-8">
+            <h2
+              className="font-mono text-[11px] uppercase tracking-widest text-text-2"
+            >
+              experience
+            </h2>
+            <a
+              href="https://github.com/tokuchii"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[11px] uppercase tracking-widest text-text-2 hover:text-text-1 transition-colors flex items-center gap-1"
+            >
+              FULL HISTORY <ArrowRightIcon size={10} />
+            </a>
+          </div>
+        </FadeIn>
 
-        <div className="relative pl-6 lg:pl-8 border-l border-border space-y-8 lg:space-y-10">
+        <div className="flex flex-col">
           {experience.map((job, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
-              <div className="relative">
-                <div className="absolute -left-[calc(1.5rem+4px)] lg:-left-[calc(2rem+4px)] top-1 w-2 h-2 rounded-full bg-accent" />
-
-                <h3 className="font-extrabold text-text-1 tracking-tight" style={{ fontSize: "clamp(0.9375rem, 1.5vw, 1.125rem)" }}>
+            <FadeIn key={i} delay={i * 0.06}>
+              <div className="flex items-baseline gap-4 sm:gap-8 py-4 border-b border-border group hover:border-text-2 transition-colors">
+                <span className="font-mono text-[13px] text-text-2 shrink-0 w-10">
+                  {extractYear(job.dates)}
+                </span>
+                <span className="font-medium text-text-1 text-[14px] flex-1">
                   {job.role}
-                </h3>
-                <p className="text-text-2" style={{ fontSize: "clamp(0.8125rem, 1.2vw, 0.9375rem)" }}>
+                </span>
+                <span className="text-text-2 text-[13px] shrink-0 hidden sm:block">
                   {job.company}
-                  {job.location && (
-                    <span className="text-text-2"> → {job.location}</span>
-                  )}
-                </p>
-
-                <ul className="mt-3 space-y-1.5">
-                  {job.bullets.map((bullet, j) => (
-                    <li key={j} className="text-text-2 leading-relaxed" style={{ fontSize: "clamp(0.8125rem, 1.2vw, 0.9375rem)" }}>
-                      · {bullet}
-                    </li>
-                  ))}
-                </ul>
+                </span>
               </div>
             </FadeIn>
           ))}

@@ -137,25 +137,6 @@ export default function Hero() {
         </motion.div>
       </section>
 
-      {/* Spider overlay — desktop only */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.5 }}
-        className="absolute inset-0 pointer-events-none select-none overflow-hidden hidden lg:block"
-      >
-        <img
-          src="/files/spider.png"
-          alt=""
-          className="absolute bottom-5 right-[-22%] h-[70vh] xl:h-[90vh] w-auto object-contain object-bottom-right opacity-10 dark:invert dark:opacity-15"
-        />
-        <img
-          src="/files/spider.png"
-          alt=""
-          className="absolute bottom-5 left-[-22%] h-[70vh] xl:h-[90vh] w-auto object-contain object-bottom-left opacity-10 dark:invert dark:opacity-15"
-          style={{ transform: "scaleX(-1)" }}
-        />
-      </motion.div>
     </div>
   );
 }

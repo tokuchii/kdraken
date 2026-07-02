@@ -43,7 +43,7 @@ const securityHeaders = [
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' data: https:;
       font-src 'self' https://fonts.gstatic.com;
-      connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://www.google-analytics.com;
+      connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://www.google-analytics.com https://ipwho.is https://api.ipify.org;
       frame-src https://pages.codeadam.ca https://buymeacoffee.com;
     `.replace(/\s{2,}/g, " ").trim(),
   },

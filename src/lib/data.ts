@@ -5,7 +5,7 @@ export const GITHUB_USERNAME = "tokuchii";
 export const navLinks: NavLink[] = [
   { label: "About", href: "#about" },
   { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
+  { label: "Stack", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Contact", href: "#contact" },
 ];
@@ -38,7 +38,7 @@ export const experience: Job[] = [
     role: "Junior Blockchain Developer",
     company: "LeadsAgriventures",
     location: "Calauan, Laguna",
-    dates: "2024 — 2025",
+    dates: "2026",
     bullets: [
       "Integrated blockchain-based features into existing systems, contributing to smart contract workflows alongside the core development team",
       "Improved website performance and responsiveness across devices, ensuring consistent UX on both desktop and mobile viewports",
@@ -47,10 +47,21 @@ export const experience: Job[] = [
     type: "work",
   },
   {
+    role: "Service Crew",
+    company: "Angel's Pizza",
+    location: "Sta. Cruz, Laguna",
+    dates: "2025",
+    bullets: [
+      "Frontline Services Department",
+      "Assisted with customer service and daily operations",
+    ],
+    type: "work",
+  },
+  {
     role: "Junior Software Developer",
     company: "Malveda Properties and Development Corp.",
     location: "Biñan, Laguna",
-    dates: "2024 — 2025",
+    dates: "2024",
     bullets: [
       "Collaborated closely with the development team as a Junior Full-stack Software Developer",
       "Handled both frontend and backend development tasks",
@@ -75,32 +86,10 @@ export const experience: Job[] = [
     role: "SPES Trainee",
     company: "Municipality of Calauan",
     location: "Calauan, Laguna",
-    dates: "2023",
+    dates: "2024",
     bullets: [
       "Encoder — Filing and organizing lists of transactions from all departments",
       "Maintained physical and digital records",
-    ],
-    type: "work",
-  },
-  {
-    role: "Associated Staff",
-    company: "7-Eleven",
-    location: "Calauan, Laguna",
-    dates: "2022 — 2023",
-    bullets: [
-      "Provided customer service and handled transactions",
-      "Helped maintain daily store operations",
-    ],
-    type: "work",
-  },
-  {
-    role: "Service Crew",
-    company: "Angel's Pizza",
-    location: "Sta. Cruz, Laguna",
-    dates: "2021 — 2022",
-    bullets: [
-      "Frontline Services Department",
-      "Assisted with customer service and daily operations",
     ],
     type: "work",
   },

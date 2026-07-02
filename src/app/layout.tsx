@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import LoaderOverlay from "./components/ui/LoaderOverlay";
+import Shortcuts from "./components/ui/Shortcuts";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -43,6 +44,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system">
           <LoaderOverlay />
+          <Shortcuts />
           {children}
           <Toaster
             position="bottom-right"

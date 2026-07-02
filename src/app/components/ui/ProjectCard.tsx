@@ -5,26 +5,16 @@ import { Project } from "@/lib/types";
 import Tag from "./Tag";
 import FadeIn from "./FadeIn";
 
-const accentColors = [
-  "#BFDBFE",
-  "#BBF7D0",
-  "#FDE68A",
-  "#FECACA",
-  "#DDD6FE",
-];
-
 interface ProjectCardProps {
   project: Project;
   index: number;
 }
 
 export default function ProjectCard({ project, index }: ProjectCardProps) {
-  const accentColor = accentColors[project.accentIndex % accentColors.length];
-
   return (
     <FadeIn delay={index * 0.08}>
       <div className="group relative border border-border rounded-xl overflow-hidden bg-background hover:border-accent h-full flex flex-col kinetics-spring-card spider-sense web-corner">
-        <div className="h-1 w-full" style={{ backgroundColor: accentColor }} />
+        <div className="h-1 w-full bg-accent" />
 
         <div className="p-5 flex-1 flex flex-col">
           <div className="flex items-start justify-between mb-2">

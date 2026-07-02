@@ -113,14 +113,6 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative py-10 sm:py-14 xl:py-16 overflow-hidden">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-        <img
-          src="/files/spider2.png"
-          alt=""
-            className="hidden lg:block h-[40vh] lg:h-[80vh] w-auto object-contain opacity-20 dark:invert"
-          style={{ transform: "translateX(-109%) translateY(-65px)" }}
-        />
-      </div>
       <div className="relative max-w-[720px] mx-auto px-4 sm:px-6 lg:px-0 text-center">
         <FadeIn>
           <h2
